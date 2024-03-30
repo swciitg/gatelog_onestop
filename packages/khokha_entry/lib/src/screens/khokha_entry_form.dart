@@ -6,7 +6,6 @@ import 'package:khokha_entry/src/globals/hostels.dart';
 import 'package:khokha_entry/src/globals/my_colors.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
 import 'package:khokha_entry/src/globals/prgrams.dart';
-import 'package:khokha_entry/src/main.dart';
 import 'package:khokha_entry/src/models/profile_model.dart';
 import 'package:khokha_entry/src/screens/khokha_entry_qr.dart';
 import 'package:khokha_entry/src/stores/login_store.dart';
@@ -62,7 +61,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
 
   void showQRImage() async {
     if (!_formKey.currentState!.validate()) {
-      showSnackBar('Please give all the inputs correctly');
+      showSnackBar(context, 'Please give all the inputs correctly');
       return;
     }
     final destination =
@@ -79,11 +78,11 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
     };
     final data = jsonEncode(mapData);
     debugPrint("Khokha Entry Data: $data");
-    final width = MediaQuery.of(navigatorKey.currentContext!).size.width;
+    final width = MediaQuery.of(context).size.width;
     final image = getQRImage(data);
 
     showDialog(
-      context: navigatorKey.currentContext!,
+      context: context,
       barrierDismissible: true,
       builder: (context) {
         return KhokhaEntryQR(width: width, image: image, destination: destination);
@@ -92,7 +91,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
   }
 
   QrImageView getQRImage(String data) {
-    final width = MediaQuery.of(navigatorKey.currentContext!).size.width;
+    final width = MediaQuery.of(context).size.width;
     return QrImageView(
       data: data,
       version: QrVersions.auto,

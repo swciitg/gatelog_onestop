@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
-import 'package:khokha_entry/src/main.dart';
 import 'package:dio/dio.dart';
 
-void showSnackBar(String message) {
-  scaffoldMessengerKey.currentState?.showSnackBar(
+void showSnackBar(BuildContext context,String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(message, style: MyFonts.w500),
       duration: const Duration(seconds: 1),
@@ -12,8 +11,8 @@ void showSnackBar(String message) {
   );
 }
 
-void showErrorSnackBar(DioException err) {
-  scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
+void showErrorSnackBar(BuildContext context,DioException err) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text(
       (err.response != null)
           ? err.response!.data['message']

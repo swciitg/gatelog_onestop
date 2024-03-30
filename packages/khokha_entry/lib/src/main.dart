@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:khokha_entry/src/screens/khokha_entry_form.dart';
 import 'package:khokha_entry/src/stores/login_store.dart';
 
-final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
-final navigatorKey = GlobalKey<NavigatorState>();
-
 class KhokhaEntry extends StatelessWidget {
   const KhokhaEntry({super.key});
 
