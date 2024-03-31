@@ -1,26 +1,25 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:khokha_entry/src/globals/departments.dart';
-import 'package:khokha_entry/src/globals/endpoints.dart';
 import 'package:khokha_entry/src/globals/hostels.dart';
 import 'package:khokha_entry/src/globals/my_colors.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
 import 'package:khokha_entry/src/globals/prgrams.dart';
+import 'package:khokha_entry/src/models/khokha_exit_model.dart';
 import 'package:khokha_entry/src/models/profile_model.dart';
 import 'package:khokha_entry/src/screens/khokha_entry_qr.dart';
-import 'package:khokha_entry/src/stores/login_store.dart';
-import 'package:khokha_entry/src/utility/auth_user_helpers.dart';
 import 'package:khokha_entry/src/utility/show_snackbar.dart';
 import 'package:khokha_entry/src/utility/validity.dart';
 import 'package:khokha_entry/src/widgets/custom_drop_down.dart';
 import 'package:khokha_entry/src/widgets/custom_text_field.dart';
 import 'package:khokha_entry/src/widgets/destination_suggestions.dart';
-import 'package:qr_flutter/qr_flutter.dart';
-import 'package:web_socket_channel/io.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class KhokhaEntryForm extends StatefulWidget {
   static const id = "/khokha_entry_form";
+
   const KhokhaEntryForm({super.key});
 
   @override
@@ -28,19 +27,17 @@ class KhokhaEntryForm extends StatefulWidget {
 }
 
 class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
-  // web socket connection
-  late IOWebSocketChannel channel;
-
   // form controllers
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _rollController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _roomNoController = TextEditingController();
   final TextEditingController _destinationController = TextEditingController();
   String? hostel;
   final List<String> hostels = khostels;
   var program = kprograms.first;
-  var department = kdepartments.first;
+  var branch = kdepartments.first;
   var selectedDestination = "Khokha";
   final destinationSuggestions = [
     "Khokha",
@@ -49,42 +46,23 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
   ];
   final _formKey = GlobalKey<FormState>();
 
-  void initWebSocket() async {
-    print({
-      'Content-Type': 'application/json',
-      'security-key': Endpoints.apiSecurityKey,
-      'Authorization': "Bearer ${await AuthUserHelpers.getAccessToken()}",
-    });
-    channel = IOWebSocketChannel.connect(
-      Uri.parse("wss://swc.iitg.ac.in/test/khokhaEntry/api/ws"),
-      headers: {
-        'Content-Type': 'application/json',
-        'security-key': Endpoints.apiSecurityKey,
-        'Authorization': "Bearer ${await AuthUserHelpers.getAccessToken()}",
-      },
-    );
-    print("connecting to websocket..");
-    await channel.ready;
-    print("connecting successful..");
-    channel.stream.listen((event) {
-      debugPrint("WebSocket: $event");
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    initWebSocket();
     resetForm();
   }
 
-  void resetForm() {
-    ProfileModel p = ProfileModel.fromJson(LoginStore.userData);
+  void resetForm() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userData = jsonDecode((await prefs.getString("userInfo"))!);
+    ProfileModel p = ProfileModel.fromJson(userData);
     _nameController.text = p.name;
     _rollController.text = p.rollNo;
-    _phoneController.text = p.phoneNumber == null ? "" : p.phoneNumber.toString();
+    _phoneController.text =
+        p.phoneNumber == null ? "" : p.phoneNumber.toString();
     _roomNoController.text = p.roomNo ?? "";
     _destinationController.text = "";
+    _emailController.text = p.outlookEmail;
     hostel = p.hostel;
     selectedDestination = destinationSuggestions.first;
     setState(() {});
@@ -95,50 +73,32 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
       showSnackBar(context, 'Please give all the inputs correctly');
       return;
     }
-    final destination =
-        selectedDestination == "Other" ? _destinationController.text : selectedDestination;
+    final destination = selectedDestination == "Other"
+        ? _destinationController.text
+        : selectedDestination;
     final mapData = {
       "name": _nameController.text,
-      "roll": _rollController.text,
-      "phone": _phoneController.text,
-      "room": _roomNoController.text,
+      "outlookEmail": _emailController.text,
+      "rollNumber": _rollController.text,
+      "phoneNumber": _phoneController.text,
+      "roomNumber": _roomNoController.text,
       "hostel": hostel,
       "program": program,
-      "department": department,
+      "branch": branch,
       "destination": destination,
     };
     final data = jsonEncode(mapData);
     debugPrint("Khokha Entry Data: $data");
-    final width = MediaQuery.of(context).size.width;
-    final image = getQRImage(data);
-
+    final model = KhoKhaExitModel.fromJson(mapData);
     showDialog(
       context: context,
       barrierDismissible: true,
       builder: (context) {
-        return KhokhaEntryQR(width: width, image: image, destination: destination);
+        return KhokhaEntryQR(
+          model: model,
+          destination: destination,
+        );
       },
-    );
-  }
-
-  QrImageView getQRImage(String data) {
-    final width = MediaQuery.of(context).size.width;
-    return QrImageView(
-      data: data,
-      version: QrVersions.auto,
-      size: width * 0.6,
-      gapless: false,
-      embeddedImageStyle: const QrEmbeddedImageStyle(
-        color: Colors.white,
-      ),
-      eyeStyle: const QrEyeStyle(
-        color: Colors.white,
-        eyeShape: QrEyeShape.square,
-      ),
-      dataModuleStyle: const QrDataModuleStyle(
-        color: Colors.white,
-        dataModuleShape: QrDataModuleShape.circle,
-      ),
     );
   }
 
@@ -155,7 +115,8 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
               const SizedBox(height: 4),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   child: ListView(
                     children: [
                       Row(
@@ -166,7 +127,8 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                                 children: [
                                   TextSpan(
                                     text: 'Fields marked with',
-                                    style: MyFonts.w500.setColor(kWhite3).size(12),
+                                    style:
+                                        MyFonts.w500.setColor(kWhite3).size(12),
                                   ),
                                   TextSpan(
                                     text: ' * ',
@@ -174,7 +136,8 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                                   ),
                                   TextSpan(
                                     text: 'are compulsory',
-                                    style: MyFonts.w500.setColor(kWhite3).size(12),
+                                    style:
+                                        MyFonts.w500.setColor(kWhite3).size(12),
                                   ),
                                 ],
                               ),
@@ -204,6 +167,14 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                               validator: validatefield,
                             ),
                             const SizedBox(height: 12),
+                            CustomTextField(
+                              label: 'Outlook Email',
+                              validator: validatefield,
+                              isNecessary: true,
+                              controller: _emailController,
+                              maxLines: 1,
+                            ),
+                            const SizedBox(height: 12),
                             CustomDropDown(
                               value: program,
                               items: kprograms,
@@ -213,10 +184,10 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                             ),
                             const SizedBox(height: 12),
                             CustomDropDown(
-                              value: department,
+                              value: branch,
                               items: kdepartments,
-                              label: 'Department',
-                              onChanged: (d) => department = d,
+                              label: 'Branch',
+                              onChanged: (d) => branch = d,
                               validator: validatefield,
                             ),
                             const SizedBox(height: 12),
@@ -287,7 +258,9 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                                 controller: _destinationController,
                                 maxLength: 50,
                                 counter: true,
-                                validator: selectedDestination == "Other" ? validatefield : null,
+                                validator: selectedDestination == "Other"
+                                    ? validatefield
+                                    : null,
                               ),
                             const SizedBox(height: 12),
                           ],

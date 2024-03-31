@@ -1,0 +1,7 @@
+enum SocketEvents {
+  CONNECTION,
+  TIMEOUT,
+  ERROR,
+  ENTRY_ADDED,
+  ENTRY_CLOSED,
+}
