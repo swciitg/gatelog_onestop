@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:khokha_entry/src/globals/departments.dart';
+import 'package:khokha_entry/src/globals/endpoints.dart';
 import 'package:khokha_entry/src/globals/hostels.dart';
 import 'package:khokha_entry/src/globals/my_colors.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
@@ -9,12 +10,14 @@ import 'package:khokha_entry/src/globals/prgrams.dart';
 import 'package:khokha_entry/src/models/profile_model.dart';
 import 'package:khokha_entry/src/screens/khokha_entry_qr.dart';
 import 'package:khokha_entry/src/stores/login_store.dart';
+import 'package:khokha_entry/src/utility/auth_user_helpers.dart';
 import 'package:khokha_entry/src/utility/show_snackbar.dart';
 import 'package:khokha_entry/src/utility/validity.dart';
 import 'package:khokha_entry/src/widgets/custom_drop_down.dart';
 import 'package:khokha_entry/src/widgets/custom_text_field.dart';
 import 'package:khokha_entry/src/widgets/destination_suggestions.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:web_socket_channel/io.dart';
 
 class KhokhaEntryForm extends StatefulWidget {
   static const id = "/khokha_entry_form";
@@ -25,6 +28,10 @@ class KhokhaEntryForm extends StatefulWidget {
 }
 
 class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
+  // web socket connection
+  late IOWebSocketChannel channel;
+
+  // form controllers
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _rollController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -41,9 +48,33 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
     "Other",
   ];
   final _formKey = GlobalKey<FormState>();
+
+  void initWebSocket() async {
+    print({
+      'Content-Type': 'application/json',
+      'security-key': Endpoints.apiSecurityKey,
+      'Authorization': "Bearer ${await AuthUserHelpers.getAccessToken()}",
+    });
+    channel = IOWebSocketChannel.connect(
+      Uri.parse("wss://swc.iitg.ac.in/test/khokhaEntry/api/ws"),
+      headers: {
+        'Content-Type': 'application/json',
+        'security-key': Endpoints.apiSecurityKey,
+        'Authorization': "Bearer ${await AuthUserHelpers.getAccessToken()}",
+      },
+    );
+    print("connecting to websocket..");
+    await channel.ready;
+    print("connecting successful..");
+    channel.stream.listen((event) {
+      debugPrint("WebSocket: $event");
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    initWebSocket();
     resetForm();
   }
 
