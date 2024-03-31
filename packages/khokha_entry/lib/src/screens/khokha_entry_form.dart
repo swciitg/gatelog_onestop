@@ -89,7 +89,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
     };
     final data = jsonEncode(mapData);
     debugPrint("Khokha Entry Data: $data");
-    final model = KhoKhaExitModel.fromJson(mapData);
+    final model = KhokhaExitModel.fromJson(mapData);
     showDialog(
       context: context,
       barrierDismissible: true,

@@ -54,7 +54,7 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
         initWebSocket();
         setState(() {});
       } else if (eventName == SocketEvents.ENTRY_ADDED.name) {
-        final data = widget.model as KhoKhaExitModel;
+        final data = widget.model as KhokhaExitModel;
         print(eventMap['data']['outTime']);
         final outTime = DateTime.parse(eventMap['data']['outTime'].toString());
         final model = KhokhaEntryModel(
@@ -113,7 +113,7 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final isExit = widget.model is KhoKhaExitModel;
+    final isExit = widget.model is KhokhaExitModel;
     return AlertDialog(
       backgroundColor: kAppBarGrey,
       surfaceTintColor: Colors.transparent,
