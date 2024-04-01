@@ -15,6 +15,7 @@ import 'package:khokha_entry/src/utility/validity.dart';
 import 'package:khokha_entry/src/widgets/custom_drop_down.dart';
 import 'package:khokha_entry/src/widgets/custom_text_field.dart';
 import 'package:khokha_entry/src/widgets/destination_suggestions.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class KhokhaEntryForm extends StatefulWidget {
@@ -160,8 +161,8 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                             ),
                             const SizedBox(height: 12),
                             CustomDropDown(
-                              value: hostel,
-                              items: hostels,
+                              value: Hostel.none.displayString,
+                              items: Hostel.getDisplayStringList(),
                               label: 'Hostel',
                               onChanged: (h) => hostel = h,
                               validator: validatefield,
@@ -176,16 +177,16 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                             ),
                             const SizedBox(height: 12),
                             CustomDropDown(
-                              value: program,
-                              items: kprograms,
+                              value: Program.none.displayString,
+                              items: Program.getDisplayStringList(),
                               label: 'Program',
                               onChanged: (p) => program = p,
                               validator: validatefield,
                             ),
                             const SizedBox(height: 12),
                             CustomDropDown(
-                              value: branch,
-                              items: kdepartments,
+                              value: Branch.none.displayString,
+                              items: Branch.getDisplayStringList(),
                               label: 'Branch',
                               onChanged: (d) => branch = d,
                               validator: validatefield,

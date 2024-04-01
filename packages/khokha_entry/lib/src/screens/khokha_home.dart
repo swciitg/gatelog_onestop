@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
 import 'package:khokha_entry/src/models/khokha_entry_model.dart';
-import 'package:khokha_entry/src/screens/khokha_entry_form.dart';
+import 'package:khokha_entry/src/routing/app_routes.dart';
 import 'package:khokha_entry/src/screens/khokha_entry_qr.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -89,7 +90,7 @@ class _KhokhaHomeState extends State<KhokhaHome> {
                           )
                       ],
                     ),
-                    onTap: () {
+                    onTap: () async {
                       if (entry.inTime != null) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -98,7 +99,7 @@ class _KhokhaHomeState extends State<KhokhaHome> {
                         );
                         return;
                       }
-                      showDialog(
+                      await showDialog(
                         context: context,
                         barrierDismissible: true,
                         builder: (context) {
@@ -108,6 +109,7 @@ class _KhokhaHomeState extends State<KhokhaHome> {
                           );
                         },
                       );
+                      setState(() {});
                     },
                   ),
                 );
@@ -119,8 +121,7 @@ class _KhokhaHomeState extends State<KhokhaHome> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: lBlue2,
         onPressed: () async {
-          await Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => KhokhaEntryForm()));
+          await context.pushNamed(AppRoutes.entryFormScreen.name);
           setState(() {});
         },
         child: const Icon(
