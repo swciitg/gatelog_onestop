@@ -80,6 +80,7 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
         );
         print(model.toJson());
         prefs.setString("entry_data", jsonEncode(model.toJson()));
+        nav.pop();
       }
       debugPrint("WebSocket: $event");
     });

@@ -35,74 +35,98 @@ class _KhokhaHomeState extends State<KhokhaHome> {
         ),
       ),
       backgroundColor: kBackground,
-      body: FutureBuilder(
-        future: getEntries(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                "${snapshot.error}",
-                style: MyFonts.w500.setColor(kWhite3).size(14),
-              ),
-            );
-          }
-          if (!snapshot.hasData) {
-            return const CircularProgressIndicator(color: lBlue2);
-          }
-          final data = snapshot.data!;
-          if (snapshot.data!.isEmpty) {
-            return Center(
-              child: Text(
-                "No entries as of now",
-                style: MyFonts.w500.setColor(kWhite3).size(14),
-              ),
-            );
-          }
-          return ListView.builder(
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              final entry = data[index];
-              return ListTile(
-                title: Text(
-                  "Destination: ${entry.destination}",
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FutureBuilder(
+          future: getEntries(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text(
+                  "${snapshot.error}",
                   style: MyFonts.w500.setColor(kWhite3).size(14),
                 ),
-                subtitle: Text(
-                  "Exit at: ${entry.outTime.hour}:${entry.outTime.minute}",
-                  style: MyFonts.w500.setColor(kWhite3).size(12),
+              );
+            }
+            if (!snapshot.hasData) {
+              return const CircularProgressIndicator(color: lBlue2);
+            }
+            final data = snapshot.data!;
+            if (snapshot.data!.isEmpty) {
+              return Center(
+                child: Text(
+                  "No entries as of now",
+                  style: MyFonts.w500.setColor(kWhite3).size(14),
                 ),
-                onTap: () {
-                  if (entry.inTime != null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("Entry already closed"),
-                      ),
-                    );
-                    return;
-                  }
-                  showDialog(
-                    context: context,
-                    barrierDismissible: true,
-                    builder: (context) {
-                      return KhokhaEntryQR(
-                        model: entry,
-                        destination: entry.destination,
+              );
+            }
+            return ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                final entry = data[index];
+                return Card(
+                  color: kAppBarGrey,
+                  child: ListTile(
+                    title: Text(
+                      "Destination: ${entry.destination}",
+                      style: MyFonts.w500.setColor(kWhite3).size(18),
+                    ),
+                    trailing: Text(
+                      "Status: ${entry.inTime == null ? "Open" : "Closed"}",
+                      style: MyFonts.w500.setColor(kWhite3).size(12),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Exit at: ${entry.outTime.toLocal().hour}:${entry.outTime.toLocal().minute}",
+                          style: MyFonts.w500.setColor(kWhite3).size(12),
+                        ),
+                        if (entry.inTime != null)
+                          Text(
+                            "Entry at: ${entry.inTime!.toLocal().hour}:${entry.inTime!.toLocal().minute}",
+                            style: MyFonts.w500.setColor(kWhite3).size(12),
+                          )
+                      ],
+                    ),
+                    onTap: () {
+                      if (entry.inTime != null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Entry already closed"),
+                          ),
+                        );
+                        return;
+                      }
+                      showDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (context) {
+                          return KhokhaEntryQR(
+                            model: entry,
+                            destination: entry.destination,
+                          );
+                        },
                       );
                     },
-                  );
-                },
-              );
-            },
-          );
-        },
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: lBlue2,
         onPressed: () async {
           await Navigator.of(context)
               .push(MaterialPageRoute(builder: (context) => KhokhaEntryForm()));
           setState(() {});
         },
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          color: kBlack,
+        ),
       ),
     );
   }
