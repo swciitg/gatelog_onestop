@@ -28,6 +28,7 @@ class _KhokhaHomeState extends State<KhokhaHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: kAppBarGrey,
         title: Text(
           "All Entries",
           style: MyFonts.w500.setColor(kWhite3),
