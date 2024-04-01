@@ -212,7 +212,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "17138f97e3b7ac138a7323d37c3d9899e7440910"
+      resolved-ref: "64a9e26adc72911321d3c7548a8d2771e0edaf59"
       url: "https://github.com/swciitg/onestop_kit.git"
     source: git
     version: "0.0.1"

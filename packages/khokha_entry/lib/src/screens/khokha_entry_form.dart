@@ -162,7 +162,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                             const SizedBox(height: 12),
                             CustomDropDown(
                               value: Hostel.none.displayString,
-                              items: Hostel.getDisplayStringList(),
+                              items: Hostel.values.displayStrings(),
                               label: 'Hostel',
                               onChanged: (h) => hostel = h,
                               validator: validatefield,
@@ -178,7 +178,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                             const SizedBox(height: 12),
                             CustomDropDown(
                               value: Program.none.displayString,
-                              items: Program.getDisplayStringList(),
+                              items: Program.values.displayStrings(),
                               label: 'Program',
                               onChanged: (p) => program = p,
                               validator: validatefield,
@@ -186,7 +186,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                             const SizedBox(height: 12),
                             CustomDropDown(
                               value: Branch.none.displayString,
-                              items: Branch.getDisplayStringList(),
+                              items: Branch.values.displayStrings(),
                               label: 'Branch',
                               onChanged: (d) => branch = d,
                               validator: validatefield,
