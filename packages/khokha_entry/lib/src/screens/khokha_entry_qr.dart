@@ -122,6 +122,11 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final isExit = widget.model is KhokhaExitModel;
+    Map json = widget.model.toJson();
+    json['isExit'] = isExit;
+
+    print(json);
+
     return AlertDialog(
       backgroundColor: kAppBarGrey,
       surfaceTintColor: Colors.transparent,
@@ -132,7 +137,12 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
           SizedBox(
             width: width * 0.6,
             height: width * 0.6,
-            child: getQRImage(jsonEncode(widget.model.toJson())),
+            child: json['connectionId'] == null
+                ? Center(
+                    child: CircularProgressIndicator(
+                    color: lBlue2,
+                  ))
+                : getQRImage(jsonEncode(json)),
           ),
           const SizedBox(height: 16),
           if (isExit)
