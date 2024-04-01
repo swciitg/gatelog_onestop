@@ -28,9 +28,11 @@ class KhokhaEntryQR extends StatefulWidget {
 }
 
 class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
+  late IOWebSocketChannel channel;
+
   void initWebSocket() async {
-    final channel = IOWebSocketChannel.connect(
-      Uri.parse(Endpoints.webSocketUrl),
+    channel = IOWebSocketChannel.connect(
+      Uri.parse(Endpoints.khokhaWebSocketUrl),
       headers: {
         'Content-Type': 'application/json',
         'security-key': Endpoints.onestopSecurityKey,
@@ -81,6 +83,12 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
       }
       debugPrint("WebSocket: $event");
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    channel.sink.close();
   }
 
   @override

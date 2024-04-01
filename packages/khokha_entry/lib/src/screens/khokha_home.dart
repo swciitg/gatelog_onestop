@@ -26,21 +26,37 @@ class _KhokhaHomeState extends State<KhokhaHome> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "All Entries",
+          style: MyFonts.w500.setColor(kWhite3),
+        ),
+      ),
       backgroundColor: kBackground,
       body: FutureBuilder(
         future: getEntries(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
-              child: Text("${snapshot.error}"),
+              child: Text(
+                "${snapshot.error}",
+                style: MyFonts.w500.setColor(kWhite3).size(14),
+              ),
             );
           }
           if (!snapshot.hasData) {
             return const CircularProgressIndicator(color: lBlue2);
           }
           final data = snapshot.data!;
+          if (snapshot.data!.isEmpty) {
+            return Center(
+              child: Text(
+                "No entries as of now",
+                style: MyFonts.w500.setColor(kWhite3).size(14),
+              ),
+            );
+          }
           return ListView.builder(
             itemCount: data.length,
             itemBuilder: (context, index) {
