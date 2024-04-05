@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
-import 'package:khokha_entry/src/models/khokha_entry_model.dart';
+import 'package:khokha_entry/src/models/entry_qr_model.dart';
 import 'package:khokha_entry/src/routing/app_routes.dart';
 import 'package:khokha_entry/src/screens/khokha_entry_qr.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,11 +18,11 @@ class KhokhaHome extends StatefulWidget {
 }
 
 class _KhokhaHomeState extends State<KhokhaHome> {
-  Future<List<KhokhaEntryModel>> getEntries() async {
+  Future<List<EntryQrModel>> getEntries() async {
     final prefs = await SharedPreferences.getInstance();
     final data = await prefs.getString("entry_data");
     print(data);
-    return data != null ? [KhokhaEntryModel.fromJson(jsonDecode(data))] : [];
+    return data != null ? [EntryQrModel.fromJson(jsonDecode(data))] : [];
   }
 
   @override

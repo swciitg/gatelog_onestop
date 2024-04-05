@@ -7,7 +7,7 @@ import 'package:khokha_entry/src/globals/hostels.dart';
 import 'package:khokha_entry/src/globals/my_colors.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
 import 'package:khokha_entry/src/globals/prgrams.dart';
-import 'package:khokha_entry/src/models/khokha_exit_model.dart';
+import 'package:khokha_entry/src/models/exit_qr_model.dart';
 import 'package:khokha_entry/src/models/profile_model.dart';
 import 'package:khokha_entry/src/screens/khokha_entry_qr.dart';
 import 'package:khokha_entry/src/utility/show_snackbar.dart';
@@ -26,6 +26,10 @@ class KhokhaEntryForm extends StatefulWidget {
   @override
   State<KhokhaEntryForm> createState() => _KhokhaEntryFormState();
 }
+
+// TODO: USE ENUMS, COLORS AND USER_MODEL FROM ONESTOP_KIT
+// TODO: MAKE CODE CONCISE (FILE SIZE MUST BE < 250)
+// TODO: USE ONLY CLASS BASED WIDGETS
 
 class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
   // form controllers
@@ -90,7 +94,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
     };
     final data = jsonEncode(mapData);
     debugPrint("Khokha Entry Data: $data");
-    final model = KhokhaExitModel.fromJson(mapData);
+    final model = ExitQrModel.fromJson(mapData);
     showDialog(
       context: context,
       barrierDismissible: true,

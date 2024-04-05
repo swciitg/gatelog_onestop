@@ -120,6 +120,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  freezed_annotation:
+    dependency: transitive
+    description:
+      name: freezed_annotation
+      sha256: c3fd9336eb55a38cc1bbd79ab17573113a8deccd0ecbbf926cca3c62803b5c2d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.1"
   go_router:
     dependency: transitive
     description:
@@ -136,6 +144,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  json_annotation:
+    dependency: transitive
+    description:
+      name: json_annotation
+      sha256: b10a7b2ff83d83c777edba3c6a0f97045ddadd56c944e1a23a3fdf43a1bf4467
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.8.1"
   khokha_entry:
     dependency: "direct main"
     description:
@@ -212,7 +228,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "64a9e26adc72911321d3c7548a8d2771e0edaf59"
+      resolved-ref: ae0f21769feb9bb5e034955e05bacaed9c9e45a2
       url: "https://github.com/swciitg/onestop_kit.git"
     source: git
     version: "0.0.1"

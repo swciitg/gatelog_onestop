@@ -1,13 +1,13 @@
 import 'package:khokha_entry/src/models/qr_model.dart';
 
-class KhokhaEntryModel implements QrModel {
+class EntryQrModel implements QrModel {
   String? connectionId;
   final String destination;
   final String entryId;
   final DateTime outTime;
   final DateTime? inTime;
 
-  KhokhaEntryModel({
+  EntryQrModel({
     required this.connectionId,
     required this.destination,
     required this.entryId,
@@ -15,8 +15,8 @@ class KhokhaEntryModel implements QrModel {
     this.inTime,
   });
 
-  factory KhokhaEntryModel.fromJson(Map<String, dynamic> map) {
-    return KhokhaEntryModel(
+  factory EntryQrModel.fromJson(Map<String, dynamic> map) {
+    return EntryQrModel(
       connectionId: map['connectionId'],
       destination: map['destination'],
       entryId: map['entryId'],

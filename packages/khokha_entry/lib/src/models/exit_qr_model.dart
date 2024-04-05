@@ -1,6 +1,6 @@
 import 'package:khokha_entry/src/models/qr_model.dart';
 
-class KhokhaExitModel implements QrModel {
+class ExitQrModel implements QrModel {
   final String outlookEmail;
   final String name;
   final String rollNumber;
@@ -12,7 +12,7 @@ class KhokhaExitModel implements QrModel {
   final String destination;
   String? connectionId;
 
-  KhokhaExitModel({
+  ExitQrModel({
     required this.outlookEmail,
     required this.name,
     required this.rollNumber,
@@ -25,8 +25,8 @@ class KhokhaExitModel implements QrModel {
     this.connectionId,
   });
 
-  factory KhokhaExitModel.fromJson(Map<String, dynamic> map) {
-    return KhokhaExitModel(
+  factory ExitQrModel.fromJson(Map<String, dynamic> map) {
+    return ExitQrModel(
       outlookEmail: map['outlookEmail'],
       name: map['name'],
       rollNumber: map['rollNumber'],

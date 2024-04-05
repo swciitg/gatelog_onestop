@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:khokha_entry/src/globals/endpoints.dart';
 import 'package:khokha_entry/src/globals/my_colors.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
-import 'package:khokha_entry/src/models/khokha_entry_model.dart';
-import 'package:khokha_entry/src/models/khokha_exit_model.dart';
+import 'package:khokha_entry/src/models/entry_qr_model.dart';
+import 'package:khokha_entry/src/models/exit_qr_model.dart';
 import 'package:khokha_entry/src/models/qr_model.dart';
 import 'package:khokha_entry/src/utility/auth_user_helpers.dart';
 import 'package:khokha_entry/src/utility/enums.dart';
@@ -56,10 +56,10 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
         initWebSocket();
         setState(() {});
       } else if (eventName == SocketEvents.ENTRY_ADDED.name) {
-        final data = widget.model as KhokhaExitModel;
+        final data = widget.model as ExitQrModel;
         print(eventMap['data']['outTime']);
         final outTime = DateTime.parse(eventMap['data']['outTime'].toString());
-        final model = KhokhaEntryModel(
+        final model = EntryQrModel(
           connectionId: widget.model.connectionId,
           destination: data.destination,
           entryId: eventMap['data']['_id'],
@@ -71,7 +71,7 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
       } else if (eventName == SocketEvents.ENTRY_CLOSED.name) {
         final data = await prefs.getString("entry_data");
         final map = jsonDecode(data!);
-        final model = KhokhaEntryModel(
+        final model = EntryQrModel(
           connectionId: widget.model.connectionId,
           destination: map['destination'],
           entryId: eventMap['data']['_id'],
@@ -122,7 +122,7 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final isExit = widget.model is KhokhaExitModel;
+    final isExit = widget.model is ExitQrModel;
     Map json = widget.model.toJson();
     json['isExit'] = isExit;
 
@@ -165,7 +165,7 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
             ),
           if (!isExit)
             Builder(builder: (context) {
-              final data = widget.model as KhokhaEntryModel;
+              final data = widget.model as EntryQrModel;
               final time = data.outTime;
               final destination = data.destination;
               return Column(
