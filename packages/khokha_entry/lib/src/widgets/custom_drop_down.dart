@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:khokha_entry/src/globals/my_colors.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class CustomDropDown extends StatelessWidget {
   final List<String> items;
@@ -43,32 +43,32 @@ class CustomDropDown extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: label,
-                      style: MyFonts.w500.size(14).setColor(kTabText),
+                      style: MyFonts.w500.size(14).setColor(OneStopColors.kTabText),
                     ),
                     isNecessary!
                         ? TextSpan(
                             text: ' * ',
-                            style: MyFonts.w500.size(16).setColor(kRed),
+                            style: MyFonts.w500.size(16).setColor(OneStopColors.kRed),
                           )
                         : const TextSpan(),
                   ],
                 ),
               )
             : null,
-        labelStyle: MyFonts.w500.size(14).setColor(kTabText),
-        hintStyle: MyFonts.w500.size(14).setColor(kTabText),
+        labelStyle: MyFonts.w500.size(14).setColor(OneStopColors.kTabText),
+        hintStyle: MyFonts.w500.size(14).setColor(OneStopColors.kTabText),
         errorStyle: MyFonts.w500,
         contentPadding:
             const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: kfocusColor, width: 1),
+          borderSide: const BorderSide(color: OneStopColors.kfocusColor, width: 1),
           borderRadius: borderRadius ??
               const BorderRadius.all(
                 Radius.circular(4),
               ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: kfocusColor, width: 1),
+          borderSide: const BorderSide(color: OneStopColors.kfocusColor, width: 1),
           borderRadius: borderRadius ??
               const BorderRadius.all(
                 Radius.circular(4),
@@ -89,7 +89,7 @@ class CustomDropDown extends StatelessWidget {
               ),
         ),
       ),
-      dropdownColor: kBackground,
+      dropdownColor: OneStopColors.kBackground,
       isDense: true,
       icon: icon ??
           const Icon(
@@ -97,7 +97,7 @@ class CustomDropDown extends StatelessWidget {
             size: 28,
           ),
       elevation: 16,
-      style: MyFonts.w500.size(14).setColor(kWhite),
+      style: MyFonts.w500.size(14).setColor(OneStopColors.kWhite),
       onChanged: (String? value) {
         if (index != null) {
           onChanged!(value, index);

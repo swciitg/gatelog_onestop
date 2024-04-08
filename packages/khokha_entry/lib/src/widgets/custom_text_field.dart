@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:khokha_entry/src/globals/my_colors.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 class CustomTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final String? hintText;
@@ -51,7 +51,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         return null;
       }
       return Text("$currentLength/$maxLength",
-          style: MyFonts.w500.size(12).setColor(kWhite));
+          style: MyFonts.w500.size(12).setColor(OneStopColors.kWhite));
     }
 
     return TextFormField(
@@ -62,7 +62,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       validator: widget.validator,
       controller: widget.controller,
       focusNode: widget.focusNode,
-      cursorColor: lBlue2,
+      cursorColor: OneStopColors.lBlue2,
       onTap: widget.onTap,
       onChanged: widget.onChanged,
       buildCounter: widget.counter == true ? counterBuilder : null,
@@ -79,35 +79,35 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   children: [
                     TextSpan(
                       text: widget.label,
-                      style: MyFonts.w500.size(14).setColor(kTabText),
+                      style: MyFonts.w500.size(14).setColor(OneStopColors.kTabText),
                     ),
                     if (widget.isNecessary)
                       TextSpan(
                         text: ' * ',
-                        style: MyFonts.w500.size(16).setColor(kRed),
+                        style: MyFonts.w500.size(16).setColor(OneStopColors.kRed),
                       ),
                   ],
                 ),
               )
             : null,
-        labelStyle: MyFonts.w500.size(14).setColor(kTabText),
-        hintStyle: MyFonts.w500.size(14).setColor(kTabText),
+        labelStyle: MyFonts.w500.size(14).setColor(OneStopColors.kTabText),
+        hintStyle: MyFonts.w500.size(14).setColor(OneStopColors.kTabText),
         contentPadding:
             const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: kfocusColor, width: 1),
+          borderSide: BorderSide(color: OneStopColors.kfocusColor, width: 1),
           borderRadius: BorderRadius.all(
             Radius.circular(4),
           ),
         ),
         enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: kfocusColor, width: 1),
+          borderSide: BorderSide(color: OneStopColors.kfocusColor, width: 1),
           borderRadius: BorderRadius.all(
             Radius.circular(4),
           ),
         ),
         disabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: kfocusColor, width: 1),
+          borderSide: BorderSide(color: OneStopColors.kfocusColor, width: 1),
           borderRadius: BorderRadius.all(
             Radius.circular(4),
           ),
