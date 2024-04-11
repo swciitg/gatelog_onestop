@@ -1,12 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:khokha_entry/src/globals/departments.dart';
-import 'package:khokha_entry/src/globals/hostels.dart';
-import 'package:khokha_entry/src/globals/my_colors.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
-import 'package:khokha_entry/src/globals/prgrams.dart';
 import 'package:khokha_entry/src/models/exit_qr_model.dart';
 import 'package:khokha_entry/src/models/profile_model.dart';
 import 'package:khokha_entry/src/screens/khokha_entry_qr.dart';
@@ -20,7 +15,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class KhokhaEntryForm extends StatefulWidget {
   static const id = "/khokha_entry_form";
-
   const KhokhaEntryForm({super.key});
 
   @override
@@ -40,9 +34,9 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
   final TextEditingController _roomNoController = TextEditingController();
   final TextEditingController _destinationController = TextEditingController();
   String? hostel;
-  final List<String> hostels = khostels;
-  var program = kprograms.first;
-  var branch = kdepartments.first;
+  final List<Hostel> hostels = Hostel.values;
+  var program = Program.none;
+  var branch = Branch.none;
   var selectedDestination = "Khokha";
   final destinationSuggestions = [
     "Khokha",
@@ -63,8 +57,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
     ProfileModel p = ProfileModel.fromJson(userData);
     _nameController.text = p.name;
     _rollController.text = p.rollNo;
-    _phoneController.text =
-        p.phoneNumber == null ? "" : p.phoneNumber.toString();
+    _phoneController.text = p.phoneNumber == null ? "" : p.phoneNumber.toString();
     _roomNoController.text = p.roomNo ?? "";
     _destinationController.text = "";
     _emailController.text = p.outlookEmail;
@@ -78,9 +71,8 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
       showSnackBar(context, 'Please give all the inputs correctly');
       return;
     }
-    final destination = selectedDestination == "Other"
-        ? _destinationController.text
-        : selectedDestination;
+    final destination =
+        selectedDestination == "Other" ? _destinationController.text : selectedDestination;
     final mapData = {
       "name": _nameController.text,
       "outlookEmail": _emailController.text,
@@ -88,8 +80,8 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
       "phoneNumber": _phoneController.text,
       "roomNumber": _roomNoController.text,
       "hostel": hostel,
-      "program": program,
-      "branch": branch,
+      "program": program.databaseString,
+      "branch": branch.databaseString,
       "destination": destination,
     };
     final data = jsonEncode(mapData);
@@ -112,16 +104,33 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
       child: Scaffold(
-        backgroundColor: kBackground,
-        appBar: appBar(context),
+        backgroundColor: OneStopColors.kBackground,
+        appBar: AppBar(
+          backgroundColor: OneStopColors.kAppBarGrey,
+          iconTheme: const IconThemeData(color: OneStopColors.kAppBarGrey),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: Navigator.of(context).pop,
+            icon: const Icon(
+              Icons.arrow_back_ios_new_outlined,
+              color: OneStopColors.kWhite,
+            ),
+            iconSize: 20,
+          ),
+          title: Text(
+            "Khokha Entry",
+            textAlign: TextAlign.left,
+            style: MyFonts.w500.size(23).setColor(OneStopColors.kWhite),
+          ),
+        ),
         body: SafeArea(
           child: Column(
             children: [
               const SizedBox(height: 4),
               Expanded(
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   child: ListView(
                     children: [
                       Row(
@@ -132,23 +141,28 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                                 children: [
                                   TextSpan(
                                     text: 'Fields marked with',
-                                    style:
-                                        MyFonts.w500.setColor(kWhite3).size(12),
+                                    style: MyFonts.w500.setColor(OneStopColors.kWhite3).size(12),
                                   ),
                                   TextSpan(
                                     text: ' * ',
-                                    style: MyFonts.w500.setColor(kRed).size(12),
+                                    style: MyFonts.w500.setColor(OneStopColors.kRed).size(12),
                                   ),
                                   TextSpan(
                                     text: 'are compulsory',
-                                    style:
-                                        MyFonts.w500.setColor(kWhite3).size(12),
+                                    style: MyFonts.w500.setColor(OneStopColors.kWhite3).size(12),
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                          resetText(),
+                          InkWell(
+                            onTap: resetForm,
+                            child: Text(
+                              "Reset",
+                              style: MyFonts.w500.size(12).setColor(OneStopColors.lBlue2),
+                              textAlign: TextAlign.end,
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 24),
@@ -263,9 +277,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                                 controller: _destinationController,
                                 maxLength: 50,
                                 counter: true,
-                                validator: selectedDestination == "Other"
-                                    ? validatefield
-                                    : null,
+                                validator: selectedDestination == "Other" ? validatefield : null,
                               ),
                             const SizedBox(height: 12),
                           ],
@@ -279,7 +291,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
-                            color: lBlue2,
+                            color: OneStopColors.lBlue2,
                           ),
                           child: const Text(
                             'Generate QR',
@@ -295,39 +307,6 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  AppBar appBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: kAppBarGrey,
-      iconTheme: const IconThemeData(color: kAppBarGrey),
-      automaticallyImplyLeading: false,
-      centerTitle: true,
-      leading: IconButton(
-        onPressed: Navigator.of(context).pop,
-        icon: const Icon(
-          Icons.arrow_back_ios_new_outlined,
-          color: kWhite,
-        ),
-        iconSize: 20,
-      ),
-      title: Text(
-        "Khokha Entry",
-        textAlign: TextAlign.left,
-        style: MyFonts.w500.size(23).setColor(kWhite),
-      ),
-    );
-  }
-
-  InkWell resetText() {
-    return InkWell(
-      onTap: resetForm,
-      child: Text(
-        "Reset",
-        style: MyFonts.w500.size(12).setColor(lBlue2),
-        textAlign: TextAlign.end,
       ),
     );
   }

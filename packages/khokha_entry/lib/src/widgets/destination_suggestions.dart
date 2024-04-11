@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:khokha_entry/src/globals/my_colors.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class DestinationSuggestions extends StatelessWidget {
   final void Function(String) onChanged;
@@ -18,7 +18,7 @@ class DestinationSuggestions extends StatelessWidget {
         children: [
           Text(
             "Destination: ",
-            style: MyFonts.w500.size(14).setColor(kWhite2),
+            style: MyFonts.w500.size(14).setColor(OneStopColors.kWhite2),
           ),
           const SizedBox(width: 24),
           Expanded(
@@ -51,12 +51,12 @@ class DestinationSuggestions extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(360),
-        color: selected ? lBlue2 : Colors.transparent,
-        border: !selected ? Border.all(color: lBlue2, width: 1) : null,
+        color: selected ? OneStopColors.lBlue2 : Colors.transparent,
+        border: !selected ? Border.all(color: OneStopColors.lBlue2, width: 1) : null,
       ),
       child: Text(
         destination,
-        style: selected ? MyFonts.w500.size(14) : MyFonts.w500.size(14).setColor(lBlue2),
+        style: selected ? MyFonts.w500.size(14) : MyFonts.w500.size(14).setColor(OneStopColors.lBlue2),
       ),
     );
   }

@@ -1,9 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../globals/my_colors.dart';
 
 class KhoKhaEntryAddedScreen extends StatelessWidget {
   const KhoKhaEntryAddedScreen({super.key});
@@ -16,16 +15,15 @@ class KhoKhaEntryAddedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
     return AlertDialog(
-      backgroundColor: kAppBarGrey,
+      backgroundColor: OneStopColors.kAppBarGrey,
       surfaceTintColor: Colors.transparent,
       content: Center(
         child: FutureBuilder(
             future: getEntryData(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return const CircularProgressIndicator(color: lBlue2);
+                return const CircularProgressIndicator(color: OneStopColors.lBlue2);
               }
               final data = snapshot.data!;
               final time = DateTime.parse(data['createdAt']);
