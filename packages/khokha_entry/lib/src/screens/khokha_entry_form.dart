@@ -33,7 +33,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _roomNoController = TextEditingController();
   final TextEditingController _destinationController = TextEditingController();
-  String? hostel;
+  Hostel hostel = Hostel.none;
   final List<Hostel> hostels = Hostel.values;
   var program = Program.none;
   var branch = Branch.none;
@@ -61,7 +61,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
     _roomNoController.text = p.roomNo ?? "";
     _destinationController.text = "";
     _emailController.text = p.outlookEmail;
-    hostel = p.hostel;
+    hostel = Hostel.values.firstWhere((element) => element.displayString == p.hostel);
     selectedDestination = destinationSuggestions.first;
     setState(() {});
   }
@@ -79,7 +79,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
       "rollNumber": _rollController.text,
       "phoneNumber": _phoneController.text,
       "roomNumber": _roomNoController.text,
-      "hostel": hostel,
+      "hostel": hostel.databaseString,
       "program": program.databaseString,
       "branch": branch.databaseString,
       "destination": destination,
@@ -182,8 +182,24 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                               value: Hostel.none.displayString,
                               items: Hostel.values.displayStrings(),
                               label: 'Hostel',
-                              onChanged: (h) => hostel = h,
-                              validator: validatefield,
+                              onChanged: (String h) {
+                                print(h);
+                                final updated = h.getHostelFromDisplayString(h);
+                                if (updated != null) {
+                                  hostel = updated;
+                                }
+                              },
+                              validator: (String? h) {
+                                if (h != null) {
+                                  final updated = h.getHostelFromDisplayString(h);
+                                  if (updated == Hostel.none) {
+                                    return "Select valid hostel";
+                                  } else {
+                                    return null;
+                                  }
+                                }
+                                return "Select valid hostel";
+                              },
                             ),
                             const SizedBox(height: 12),
                             CustomTextField(
@@ -198,16 +214,52 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                               value: Program.none.displayString,
                               items: Program.values.displayStrings(),
                               label: 'Program',
-                              onChanged: (p) => program = p,
-                              validator: validatefield,
+                              onChanged: (String p) {
+                                final updated = p.getProgramFromDisplayString(p);
+                                if (updated != null) {
+                                  program = updated;
+                                }
+                              },
+                              validator: (String? p) {
+                                if (p != null) {
+                                  final updated = p.getProgramFromDisplayString(p);
+                                  if (updated == Program.none) {
+                                    return "Select valid program";
+                                  } else {
+                                    return null;
+                                  }
+                                }
+                                return "Select valid program";
+                              },
                             ),
                             const SizedBox(height: 12),
                             CustomDropDown(
                               value: Branch.none.displayString,
                               items: Branch.values.displayStrings(),
                               label: 'Branch',
-                              onChanged: (d) => branch = d,
-                              validator: validatefield,
+                              onChanged: (String d) {
+                                final updated = d.getBranchFromDisplayString(d);
+                                if (updated != null) {
+                                  branch = updated;
+                                }
+                              },
+                              validator: (String? b) {
+                                print(b.runtimeType);
+                                print(b);
+                                if (b != null) {
+                                  final updated = b.getBranchFromDisplayString(b);
+                                  if ((program == Program.bDes || program == Program.mDes) &&
+                                      updated != Branch.dod) {
+                                    return "Select valid branch";
+                                  }
+                                  if (updated == Branch.none) {
+                                    return "Select valid branch";
+                                  } else {
+                                    return null;
+                                  }
+                                }
+                                return "Select valid branch";
+                              },
                             ),
                             const SizedBox(height: 12),
                             CustomTextField(
