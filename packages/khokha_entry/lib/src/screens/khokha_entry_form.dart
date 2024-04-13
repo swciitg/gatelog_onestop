@@ -1,11 +1,10 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
 import 'package:khokha_entry/src/models/exit_qr_model.dart';
-import 'package:khokha_entry/src/models/profile_model.dart';
 import 'package:khokha_entry/src/screens/khokha_entry_qr.dart';
-import 'package:khokha_entry/src/utility/show_snackbar.dart';
 import 'package:khokha_entry/src/utility/validity.dart';
 import 'package:khokha_entry/src/widgets/custom_drop_down.dart';
 import 'package:khokha_entry/src/widgets/custom_text_field.dart';
@@ -15,13 +14,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class KhokhaEntryForm extends StatefulWidget {
   static const id = "/khokha_entry_form";
+
   const KhokhaEntryForm({super.key});
 
   @override
   State<KhokhaEntryForm> createState() => _KhokhaEntryFormState();
 }
-
-// TODO: USE ENUMS, COLORS AND USER_MODEL FROM ONESTOP_KIT
 // TODO: MAKE CODE CONCISE (FILE SIZE MUST BE < 250)
 // TODO: USE ONLY CLASS BASED WIDGETS
 
@@ -54,25 +52,29 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
   void resetForm() async {
     final prefs = await SharedPreferences.getInstance();
     final userData = jsonDecode((await prefs.getString("userInfo"))!);
-    ProfileModel p = ProfileModel.fromJson(userData);
+    var p = OneStopUser.fromJson(userData);
     _nameController.text = p.name;
-    _rollController.text = p.rollNo;
-    _phoneController.text = p.phoneNumber == null ? "" : p.phoneNumber.toString();
+    _rollController.text = p.rollNo.toString();
+    _phoneController.text =
+        p.phoneNumber == null ? "" : p.phoneNumber.toString();
     _roomNoController.text = p.roomNo ?? "";
     _destinationController.text = "";
     _emailController.text = p.outlookEmail;
-    hostel = Hostel.values.firstWhere((element) => element.displayString == p.hostel);
+    hostel = Hostel.values
+        .firstWhere((element) => element.displayString == p.hostel);
     selectedDestination = destinationSuggestions.first;
     setState(() {});
   }
 
   void showQRImage() async {
     if (!_formKey.currentState!.validate()) {
-      showSnackBar(context, 'Please give all the inputs correctly');
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please give all the inputs correctly')));
       return;
     }
-    final destination =
-        selectedDestination == "Other" ? _destinationController.text : selectedDestination;
+    final destination = selectedDestination == "Other"
+        ? _destinationController.text
+        : selectedDestination;
     final mapData = {
       "name": _nameController.text,
       "outlookEmail": _emailController.text,
@@ -130,7 +132,8 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
               const SizedBox(height: 4),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   child: ListView(
                     children: [
                       Row(
@@ -141,15 +144,21 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                                 children: [
                                   TextSpan(
                                     text: 'Fields marked with',
-                                    style: MyFonts.w500.setColor(OneStopColors.kWhite3).size(12),
+                                    style: MyFonts.w500
+                                        .setColor(OneStopColors.kWhite3)
+                                        .size(12),
                                   ),
                                   TextSpan(
                                     text: ' * ',
-                                    style: MyFonts.w500.setColor(OneStopColors.kRed).size(12),
+                                    style: MyFonts.w500
+                                        .setColor(OneStopColors.kRed)
+                                        .size(12),
                                   ),
                                   TextSpan(
                                     text: 'are compulsory',
-                                    style: MyFonts.w500.setColor(OneStopColors.kWhite3).size(12),
+                                    style: MyFonts.w500
+                                        .setColor(OneStopColors.kWhite3)
+                                        .size(12),
                                   ),
                                 ],
                               ),
@@ -159,7 +168,9 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                             onTap: resetForm,
                             child: Text(
                               "Reset",
-                              style: MyFonts.w500.size(12).setColor(OneStopColors.lBlue2),
+                              style: MyFonts.w500
+                                  .size(12)
+                                  .setColor(OneStopColors.lBlue2),
                               textAlign: TextAlign.end,
                             ),
                           ),
@@ -191,7 +202,8 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                               },
                               validator: (String? h) {
                                 if (h != null) {
-                                  final updated = h.getHostelFromDisplayString(h);
+                                  final updated =
+                                      h.getHostelFromDisplayString(h);
                                   if (updated == Hostel.none) {
                                     return "Select valid hostel";
                                   } else {
@@ -204,7 +216,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                             const SizedBox(height: 12),
                             CustomTextField(
                               label: 'Outlook Email',
-                              validator: validatefield,
+                              validator: validateField,
                               isNecessary: true,
                               controller: _emailController,
                               maxLines: 1,
@@ -215,14 +227,16 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                               items: Program.values.displayStrings(),
                               label: 'Program',
                               onChanged: (String p) {
-                                final updated = p.getProgramFromDisplayString(p);
+                                final updated =
+                                    p.getProgramFromDisplayString(p);
                                 if (updated != null) {
                                   program = updated;
                                 }
                               },
                               validator: (String? p) {
                                 if (p != null) {
-                                  final updated = p.getProgramFromDisplayString(p);
+                                  final updated =
+                                      p.getProgramFromDisplayString(p);
                                   if (updated == Program.none) {
                                     return "Select valid program";
                                   } else {
@@ -247,8 +261,10 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                                 print(b.runtimeType);
                                 print(b);
                                 if (b != null) {
-                                  final updated = b.getBranchFromDisplayString(b);
-                                  if ((program == Program.bDes || program == Program.mDes) &&
+                                  final updated =
+                                      b.getBranchFromDisplayString(b);
+                                  if ((program == Program.bDes ||
+                                          program == Program.mDes) &&
                                       updated != Branch.dod) {
                                     return "Select valid branch";
                                   }
@@ -264,7 +280,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                             const SizedBox(height: 12),
                             CustomTextField(
                               label: 'Hostel room no',
-                              validator: validatefield,
+                              validator: validateField,
                               isNecessary: true,
                               controller: _roomNoController,
                               maxLength: 5,
@@ -329,7 +345,9 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                                 controller: _destinationController,
                                 maxLength: 50,
                                 counter: true,
-                                validator: selectedDestination == "Other" ? validatefield : null,
+                                validator: selectedDestination == "Other"
+                                    ? validateField
+                                    : null,
                               ),
                             const SizedBox(height: 12),
                           ],

@@ -6,6 +6,7 @@ import 'package:khokha_entry/src/globals/my_fonts.dart';
 import 'package:khokha_entry/src/models/entry_qr_model.dart';
 import 'package:khokha_entry/src/models/exit_qr_model.dart';
 import 'package:khokha_entry/src/models/qr_model.dart';
+import 'package:khokha_entry/src/screens/khokha_home.dart';
 import 'package:khokha_entry/src/utility/auth_user_helpers.dart';
 import 'package:khokha_entry/src/utility/enums.dart';
 import 'package:onestop_kit/onestop_kit.dart';
@@ -30,7 +31,7 @@ class KhokhaEntryQR extends StatefulWidget {
 class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
   late IOWebSocketChannel channel;
 
-  void initWebSocket() async {
+  void initWebSocket(BuildContext context) async {
     channel = IOWebSocketChannel.connect(
       Uri.parse(Endpoints.khokhaWebSocketUrl),
       headers: {
@@ -42,48 +43,64 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
     print("connecting to websocket..");
     await channel.ready;
     print("connecting successful..");
-    channel.stream.listen((event) async {
-      final prefs = await SharedPreferences.getInstance();
-      final nav = Navigator.of(context);
-      final eventMap = jsonDecode(event);
-      print(eventMap);
-      final eventName = eventMap['eventName'];
-      if (eventName == SocketEvents.CONNECTION.name) {
-        widget.model.setConnectionId(eventMap['connectionId']);
-        setState(() {});
-      } else if (eventName == SocketEvents.TIMEOUT.name) {
-        await channel.sink.close();
-        initWebSocket();
-        setState(() {});
-      } else if (eventName == SocketEvents.ENTRY_ADDED.name) {
-        final data = widget.model as ExitQrModel;
-        print(eventMap['data']['outTime']);
-        final outTime = DateTime.parse(eventMap['data']['outTime'].toString());
-        final model = EntryQrModel(
-          connectionId: widget.model.connectionId,
-          destination: data.destination,
-          entryId: eventMap['data']['_id'],
-          outTime: outTime,
-        );
-        prefs.setString("entry_data", jsonEncode(model.toJson()));
-        nav.pop();
-        nav.pop();
-      } else if (eventName == SocketEvents.ENTRY_CLOSED.name) {
-        final data = await prefs.getString("entry_data");
-        final map = jsonDecode(data!);
-        final model = EntryQrModel(
-          connectionId: widget.model.connectionId,
-          destination: map['destination'],
-          entryId: eventMap['data']['_id'],
-          outTime: DateTime.parse(map['outTime']),
-          inTime: DateTime.parse(eventMap['data']['inTime']),
-        );
-        print(model.toJson());
-        prefs.setString("entry_data", jsonEncode(model.toJson()));
-        nav.pop();
-      }
-      debugPrint("WebSocket: $event");
-    });
+    channel.stream.listen(
+      (event) async {
+        final prefs = await SharedPreferences.getInstance();
+        final nav = Navigator.of(context);
+        final eventMap = jsonDecode(event);
+        print(eventMap);
+        final eventName = eventMap['eventName'];
+        if (eventName == SocketEvents.CONNECTION.name) {
+          widget.model.setConnectionId(eventMap['connectionId']);
+          setState(() {});
+        } else if (eventName == SocketEvents.TIMEOUT.name) {
+          await channel.sink.close();
+          initWebSocket(context);
+          setState(() {});
+        } else if (eventName == SocketEvents.ENTRY_ADDED.name) {
+          final data = widget.model as ExitQrModel;
+          print(eventMap['data']['outTime']);
+          final outTime =
+              DateTime.parse(eventMap['data']['outTime'].toString());
+          final model = EntryQrModel(
+            connectionId: widget.model.connectionId,
+            destination: data.destination,
+            entryId: eventMap['data']['_id'],
+            outTime: outTime,
+          );
+          prefs.setString("entry_data", jsonEncode(model.toJson()));
+          nav.pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) => KhokhaHome(),
+              ),
+              (route) => false);
+        } else if (eventName == SocketEvents.ENTRY_CLOSED.name) {
+          final data = await prefs.getString("entry_data");
+          final map = jsonDecode(data!);
+          final model = EntryQrModel(
+            connectionId: widget.model.connectionId,
+            destination: map['destination'],
+            entryId: eventMap['data']['_id'],
+            outTime: DateTime.parse(map['outTime']),
+            inTime: DateTime.parse(eventMap['data']['inTime']),
+          );
+          print(model.toJson());
+          prefs.setString("entry_data", jsonEncode(model.toJson()));
+          Navigator.of(context).pop();
+        } else if (eventName == SocketEvents.ERROR.name) {
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Something went wrong!")));
+        }
+        debugPrint("WebSocket: $event");
+      },
+      onError: (error, stackTrace) {
+        print("Error: $error");
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Something went wrong!")));
+      },
+    );
   }
 
   @override
@@ -94,7 +111,7 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
 
   @override
   void initState() {
-    initWebSocket();
+    initWebSocket(context);
     super.initState();
   }
 
@@ -154,7 +171,8 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
                 children: [
                   TextSpan(
                     text: 'Destination: ',
-                    style: MyFonts.w500.setColor(OneStopColors.kWhite3).size(14),
+                    style:
+                        MyFonts.w500.setColor(OneStopColors.kWhite3).size(14),
                   ),
                   TextSpan(
                     text: widget.destination,
@@ -176,11 +194,13 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
                   const SizedBox(height: 16),
                   Text(
                     "Entry Added at: ${time.hour}: ${time.minute}",
-                    style: MyFonts.w500.setColor(OneStopColors.kWhite3).size(14),
+                    style:
+                        MyFonts.w500.setColor(OneStopColors.kWhite3).size(14),
                   ),
                   Text(
                     "Destination: $destination",
-                    style: MyFonts.w500.setColor(OneStopColors.kWhite3).size(14),
+                    style:
+                        MyFonts.w500.setColor(OneStopColors.kWhite3).size(14),
                   ),
                 ],
               );

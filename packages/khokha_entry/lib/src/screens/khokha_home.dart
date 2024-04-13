@@ -1,10 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
 import 'package:khokha_entry/src/models/entry_qr_model.dart';
-import 'package:khokha_entry/src/routing/app_routes.dart';
+import 'package:khokha_entry/src/screens/khokha_entry_form.dart';
 import 'package:khokha_entry/src/screens/khokha_entry_qr.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,7 +48,8 @@ class _KhokhaHomeState extends State<KhokhaHome> {
               );
             }
             if (!snapshot.hasData) {
-              return const CircularProgressIndicator(color: OneStopColors.lBlue2);
+              return const CircularProgressIndicator(
+                  color: OneStopColors.lBlue2);
             }
             final data = snapshot.data!;
             if (snapshot.data!.isEmpty) {
@@ -69,23 +69,29 @@ class _KhokhaHomeState extends State<KhokhaHome> {
                   child: ListTile(
                     title: Text(
                       "Destination: ${entry.destination}",
-                      style: MyFonts.w500.setColor(OneStopColors.kWhite3).size(18),
+                      style:
+                          MyFonts.w500.setColor(OneStopColors.kWhite3).size(18),
                     ),
                     trailing: Text(
                       "Status: ${entry.inTime == null ? "Open" : "Closed"}",
-                      style: MyFonts.w500.setColor(OneStopColors.kWhite3).size(12),
+                      style:
+                          MyFonts.w500.setColor(OneStopColors.kWhite3).size(12),
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Exit at: ${entry.outTime.toLocal().hour}:${entry.outTime.toLocal().minute}",
-                          style: MyFonts.w500.setColor(OneStopColors.kWhite3).size(12),
+                          style: MyFonts.w500
+                              .setColor(OneStopColors.kWhite3)
+                              .size(12),
                         ),
                         if (entry.inTime != null)
                           Text(
                             "Entry at: ${entry.inTime!.toLocal().hour}:${entry.inTime!.toLocal().minute}",
-                            style: MyFonts.w500.setColor(OneStopColors.kWhite3).size(12),
+                            style: MyFonts.w500
+                                .setColor(OneStopColors.kWhite3)
+                                .size(12),
                           )
                       ],
                     ),
@@ -120,7 +126,9 @@ class _KhokhaHomeState extends State<KhokhaHome> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: OneStopColors.lBlue2,
         onPressed: () async {
-          await context.pushNamed(AppRoutes.entryFormScreen.name);
+          await Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => KhokhaEntryForm(),
+          ));
           setState(() {});
         },
         child: const Icon(

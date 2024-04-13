@@ -1,4 +1,4 @@
-import 'package:khokha_entry/src/utility/backend_helpers.dart';
+import 'package:onestop_kit/src/api/backend_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthUserHelpers {

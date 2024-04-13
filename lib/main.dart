@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
                         'name': 'Hardik Roongta',
                         'rollNo': '210102036',
                         'altEmail': 'abc@gmail.com',
-                        'phoneNumber': '1234567890',
-                        'emergencyPhoneNumber': '0987654321',
+                        'phoneNumber': 1234567890,
+                        'emergencyPhoneNumber': 0987654321,
                         'gender': 'Male',
                         'roomNo': 'ABCD',
                         'homeAddress': 'homeAddress',
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
                       }));
 
                   await prefs.setString("accessToken",
-                      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2NTE0MzdkYWIxMjgxNmNhODkwYTQzM2MiLCJpYXQiOjE3MTE4MjE5ODgsImV4cCI6MTcxMjY4NTk4OH0.Q6sl0I6JDK-WNuFWd4-pKOBxEE3WSK7h11PEIz9ya_o");
+                      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2NTE5NzkwNmQyMjZmNGU3MzU3ODg1NDMiLCJpYXQiOjE3MTMwMTIxNDgsImV4cCI6MTcxMzg3NjE0OH0.ldAiMehH_Bp9sD53kRztzkSC6qyniKp2cHvDF1YRAGI");
                   await prefs.setBool('isGuest', false);
 
                   nav.pushReplacement(MaterialPageRoute(
