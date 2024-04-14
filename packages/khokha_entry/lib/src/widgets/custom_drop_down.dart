@@ -43,53 +43,61 @@ class CustomDropDown extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: label,
-                      style: MyFonts.w500.size(14).setColor(OneStopColors.kTabText),
+                      style: MyFonts.w500
+                          .size(14)
+                          .setColor(OneStopColors.bottomNavFontColor),
                     ),
                     isNecessary!
                         ? TextSpan(
                             text: ' * ',
-                            style: MyFonts.w500.size(16).setColor(OneStopColors.kRed),
+                            style: MyFonts.w500
+                                .size(16)
+                                .setColor(OneStopColors.errorRed),
                           )
                         : const TextSpan(),
                   ],
                 ),
               )
             : null,
-        labelStyle: MyFonts.w500.size(14).setColor(OneStopColors.kTabText),
-        hintStyle: MyFonts.w500.size(14).setColor(OneStopColors.kTabText),
+        labelStyle:
+            MyFonts.w500.size(14).setColor(OneStopColors.bottomNavFontColor),
+        hintStyle:
+            MyFonts.w500.size(14).setColor(OneStopColors.bottomNavFontColor),
         errorStyle: MyFonts.w500,
         contentPadding:
             const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: OneStopColors.kfocusColor, width: 1),
+          borderSide:
+              const BorderSide(color: OneStopColors.focusColor, width: 1),
           borderRadius: borderRadius ??
               const BorderRadius.all(
                 Radius.circular(4),
               ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: OneStopColors.kfocusColor, width: 1),
+          borderSide:
+              const BorderSide(color: OneStopColors.focusColor, width: 1),
           borderRadius: borderRadius ??
               const BorderRadius.all(
                 Radius.circular(4),
               ),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.red, width: 1),
+          borderSide: const BorderSide(color: OneStopColors.errorRed, width: 1),
           borderRadius: borderRadius ??
               const BorderRadius.all(
                 Radius.circular(4),
               ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.red, width: 1),
+          borderSide: const BorderSide(color: OneStopColors.errorRed, width: 1),
           borderRadius: borderRadius ??
               const BorderRadius.all(
                 Radius.circular(4),
               ),
         ),
       ),
-      dropdownColor: OneStopColors.kBackground,
+      dropdownColor: OneStopColors.backgroundColor,
       isDense: true,
       icon: icon ??
           const Icon(

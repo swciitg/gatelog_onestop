@@ -7,7 +7,6 @@ import 'package:khokha_entry/src/models/entry_qr_model.dart';
 import 'package:khokha_entry/src/models/exit_qr_model.dart';
 import 'package:khokha_entry/src/models/qr_model.dart';
 import 'package:khokha_entry/src/screens/khokha_home.dart';
-import 'package:khokha_entry/src/utility/auth_user_helpers.dart';
 import 'package:khokha_entry/src/utility/enums.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -146,7 +145,7 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
     print(json);
 
     return AlertDialog(
-      backgroundColor: OneStopColors.kAppBarGrey,
+      backgroundColor: OneStopColors.secondaryColor,
       surfaceTintColor: Colors.transparent,
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -158,7 +157,7 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
             child: json['connectionId'] == null
                 ? Center(
                     child: CircularProgressIndicator(
-                    color: OneStopColors.lBlue2,
+                    color: OneStopColors.primaryColor,
                   ))
                 : getQRImage(jsonEncode(json)),
           ),
@@ -171,12 +170,15 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
                 children: [
                   TextSpan(
                     text: 'Destination: ',
-                    style:
-                        MyFonts.w500.setColor(OneStopColors.kWhite3).size(14),
+                    style: MyFonts.w500
+                        .setColor(OneStopColors.cardFontColor2)
+                        .size(14),
                   ),
                   TextSpan(
                     text: widget.destination,
-                    style: MyFonts.w500.setColor(OneStopColors.lBlue2).size(14),
+                    style: MyFonts.w500
+                        .setColor(OneStopColors.primaryColor)
+                        .size(14),
                   ),
                 ],
               ),
@@ -194,13 +196,15 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
                   const SizedBox(height: 16),
                   Text(
                     "Entry Added at: ${time.hour}: ${time.minute}",
-                    style:
-                        MyFonts.w500.setColor(OneStopColors.kWhite3).size(14),
+                    style: MyFonts.w500
+                        .setColor(OneStopColors.cardFontColor2)
+                        .size(14),
                   ),
                   Text(
                     "Destination: $destination",
-                    style:
-                        MyFonts.w500.setColor(OneStopColors.kWhite3).size(14),
+                    style: MyFonts.w500
+                        .setColor(OneStopColors.cardFontColor2)
+                        .size(14),
                   ),
                 ],
               );

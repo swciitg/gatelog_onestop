@@ -27,13 +27,13 @@ class _KhokhaHomeState extends State<KhokhaHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: OneStopColors.kAppBarGrey,
+        backgroundColor: OneStopColors.secondaryColor,
         title: Text(
           "All Entries",
-          style: MyFonts.w500.setColor(OneStopColors.kWhite3),
+          style: MyFonts.w500.setColor(OneStopColors.kWhite),
         ),
       ),
-      backgroundColor: OneStopColors.kBackground,
+      backgroundColor: OneStopColors.backgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FutureBuilder(
@@ -43,20 +43,24 @@ class _KhokhaHomeState extends State<KhokhaHome> {
               return Center(
                 child: Text(
                   "${snapshot.error}",
-                  style: MyFonts.w500.setColor(OneStopColors.kWhite3).size(14),
+                  style: MyFonts.w500
+                      .setColor(OneStopColors.cardFontColor2)
+                      .size(14),
                 ),
               );
             }
             if (!snapshot.hasData) {
               return const CircularProgressIndicator(
-                  color: OneStopColors.lBlue2);
+                  color: OneStopColors.primaryColor);
             }
             final data = snapshot.data!;
             if (snapshot.data!.isEmpty) {
               return Center(
                 child: Text(
                   "No entries as of now",
-                  style: MyFonts.w500.setColor(OneStopColors.kWhite3).size(14),
+                  style: MyFonts.w500
+                      .setColor(OneStopColors.cardFontColor2)
+                      .size(14),
                 ),
               );
             }
@@ -65,17 +69,19 @@ class _KhokhaHomeState extends State<KhokhaHome> {
               itemBuilder: (context, index) {
                 final entry = data[index];
                 return Card(
-                  color: OneStopColors.kAppBarGrey,
+                  color: OneStopColors.secondaryColor,
                   child: ListTile(
                     title: Text(
                       "Destination: ${entry.destination}",
-                      style:
-                          MyFonts.w500.setColor(OneStopColors.kWhite3).size(18),
+                      style: MyFonts.w500
+                          .setColor(OneStopColors.cardFontColor2)
+                          .size(18),
                     ),
                     trailing: Text(
                       "Status: ${entry.inTime == null ? "Open" : "Closed"}",
-                      style:
-                          MyFonts.w500.setColor(OneStopColors.kWhite3).size(12),
+                      style: MyFonts.w500
+                          .setColor(OneStopColors.cardFontColor2)
+                          .size(12),
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,14 +89,14 @@ class _KhokhaHomeState extends State<KhokhaHome> {
                         Text(
                           "Exit at: ${entry.outTime.toLocal().hour}:${entry.outTime.toLocal().minute}",
                           style: MyFonts.w500
-                              .setColor(OneStopColors.kWhite3)
+                              .setColor(OneStopColors.cardFontColor2)
                               .size(12),
                         ),
                         if (entry.inTime != null)
                           Text(
                             "Entry at: ${entry.inTime!.toLocal().hour}:${entry.inTime!.toLocal().minute}",
                             style: MyFonts.w500
-                                .setColor(OneStopColors.kWhite3)
+                                .setColor(OneStopColors.cardFontColor2)
                                 .size(12),
                           )
                       ],
@@ -124,7 +130,7 @@ class _KhokhaHomeState extends State<KhokhaHome> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: OneStopColors.lBlue2,
+        backgroundColor: OneStopColors.primaryColor,
         onPressed: () async {
           await Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => KhokhaEntryForm(),

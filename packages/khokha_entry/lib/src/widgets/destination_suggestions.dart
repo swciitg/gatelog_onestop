@@ -6,8 +6,13 @@ class DestinationSuggestions extends StatelessWidget {
   final void Function(String) onChanged;
   final String selectedDestination;
   final List<String> destinationSuggestions;
-  const DestinationSuggestions(
-      {super.key, required this.onChanged, required this.selectedDestination, required this.destinationSuggestions,});
+
+  const DestinationSuggestions({
+    super.key,
+    required this.onChanged,
+    required this.selectedDestination,
+    required this.destinationSuggestions,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,7 @@ class DestinationSuggestions extends StatelessWidget {
         children: [
           Text(
             "Destination: ",
-            style: MyFonts.w500.size(14).setColor(OneStopColors.kWhite2),
+            style: MyFonts.w500.size(14).setColor(OneStopColors.cardFontColor2),
           ),
           const SizedBox(width: 24),
           Expanded(
@@ -31,9 +36,8 @@ class DestinationSuggestions extends StatelessWidget {
               children: destinationSuggestions
                   .map(
                     (e) => GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         onChanged(e);
-                      
                       },
                       child: buildDestinationChip(e, selectedDestination == e),
                     ),
@@ -51,12 +55,16 @@ class DestinationSuggestions extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(360),
-        color: selected ? OneStopColors.lBlue2 : Colors.transparent,
-        border: !selected ? Border.all(color: OneStopColors.lBlue2, width: 1) : null,
+        color: selected ? OneStopColors.primaryColor : Colors.transparent,
+        border: !selected
+            ? Border.all(color: OneStopColors.primaryColor, width: 1)
+            : null,
       ),
       child: Text(
         destination,
-        style: selected ? MyFonts.w500.size(14) : MyFonts.w500.size(14).setColor(OneStopColors.lBlue2),
+        style: selected
+            ? MyFonts.w500.size(14)
+            : MyFonts.w500.size(14).setColor(OneStopColors.primaryColor),
       ),
     );
   }

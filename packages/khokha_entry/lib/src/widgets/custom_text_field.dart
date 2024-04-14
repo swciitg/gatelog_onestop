@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
 import 'package:onestop_kit/onestop_kit.dart';
+
 class CustomTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final String? hintText;
@@ -62,7 +63,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       validator: widget.validator,
       controller: widget.controller,
       focusNode: widget.focusNode,
-      cursorColor: OneStopColors.lBlue2,
+      cursorColor: OneStopColors.primaryColor,
       onTap: widget.onTap,
       onChanged: widget.onChanged,
       buildCounter: widget.counter == true ? counterBuilder : null,
@@ -79,47 +80,52 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   children: [
                     TextSpan(
                       text: widget.label,
-                      style: MyFonts.w500.size(14).setColor(OneStopColors.kTabText),
+                      style: MyFonts.w500
+                          .size(14)
+                          .setColor(OneStopColors.cardFontColor2),
                     ),
                     if (widget.isNecessary)
                       TextSpan(
                         text: ' * ',
-                        style: MyFonts.w500.size(16).setColor(OneStopColors.kRed),
+                        style: MyFonts.w500
+                            .size(16)
+                            .setColor(OneStopColors.errorRed),
                       ),
                   ],
                 ),
               )
             : null,
-        labelStyle: MyFonts.w500.size(14).setColor(OneStopColors.kTabText),
-        hintStyle: MyFonts.w500.size(14).setColor(OneStopColors.kTabText),
+        labelStyle:
+            MyFonts.w500.size(14).setColor(OneStopColors.cardFontColor2),
+        hintStyle: MyFonts.w500.size(14).setColor(OneStopColors.cardFontColor2),
         contentPadding:
             const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: OneStopColors.kfocusColor, width: 1),
+          borderSide: BorderSide(color: OneStopColors.focusColor, width: 1),
           borderRadius: BorderRadius.all(
             Radius.circular(4),
           ),
         ),
         enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: OneStopColors.kfocusColor, width: 1),
+          borderSide: BorderSide(color: OneStopColors.focusColor, width: 1),
           borderRadius: BorderRadius.all(
             Radius.circular(4),
           ),
         ),
         disabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: OneStopColors.kfocusColor, width: 1),
+          borderSide: BorderSide(color: OneStopColors.focusColor, width: 1),
           borderRadius: BorderRadius.all(
             Radius.circular(4),
           ),
         ),
         errorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red, width: 1),
+          borderSide: BorderSide(color: OneStopColors.errorRed, width: 1),
           borderRadius: BorderRadius.all(
             Radius.circular(4),
           ),
         ),
         focusedErrorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red, width: 1),
+          borderSide: BorderSide(color: OneStopColors.errorRed, width: 1),
           borderRadius: BorderRadius.all(
             Radius.circular(4),
           ),

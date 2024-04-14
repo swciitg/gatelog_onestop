@@ -106,10 +106,10 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
       child: Scaffold(
-        backgroundColor: OneStopColors.kBackground,
+        backgroundColor: OneStopColors.backgroundColor,
         appBar: AppBar(
-          backgroundColor: OneStopColors.kAppBarGrey,
-          iconTheme: const IconThemeData(color: OneStopColors.kAppBarGrey),
+          backgroundColor: OneStopColors.secondaryColor,
+          iconTheme: const IconThemeData(color: OneStopColors.secondaryColor),
           automaticallyImplyLeading: false,
           centerTitle: true,
           leading: IconButton(
@@ -145,19 +145,19 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                                   TextSpan(
                                     text: 'Fields marked with',
                                     style: MyFonts.w500
-                                        .setColor(OneStopColors.kWhite3)
+                                        .setColor(OneStopColors.cardFontColor2)
                                         .size(12),
                                   ),
                                   TextSpan(
                                     text: ' * ',
                                     style: MyFonts.w500
-                                        .setColor(OneStopColors.kRed)
+                                        .setColor(OneStopColors.errorRed)
                                         .size(12),
                                   ),
                                   TextSpan(
                                     text: 'are compulsory',
                                     style: MyFonts.w500
-                                        .setColor(OneStopColors.kWhite3)
+                                        .setColor(OneStopColors.cardFontColor2)
                                         .size(12),
                                   ),
                                 ],
@@ -170,7 +170,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                               "Reset",
                               style: MyFonts.w500
                                   .size(12)
-                                  .setColor(OneStopColors.lBlue2),
+                                  .setColor(OneStopColors.primaryColor),
                               textAlign: TextAlign.end,
                             ),
                           ),
@@ -361,7 +361,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
-                            color: OneStopColors.lBlue2,
+                            color: OneStopColors.primaryColor,
                           ),
                           child: const Text(
                             'Generate QR',
