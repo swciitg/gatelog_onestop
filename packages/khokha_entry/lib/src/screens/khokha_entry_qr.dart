@@ -119,8 +119,7 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
     return QrImageView(
       data: data,
       version: QrVersions.auto,
-      size: width * 0.6,
-      gapless: false,
+      gapless: true,
       embeddedImageStyle: const QrEmbeddedImageStyle(
         color: Colors.white,
       ),
@@ -130,7 +129,7 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
       ),
       dataModuleStyle: const QrDataModuleStyle(
         color: Colors.white,
-        dataModuleShape: QrDataModuleShape.circle,
+        dataModuleShape: QrDataModuleShape.square,
       ),
     );
   }
