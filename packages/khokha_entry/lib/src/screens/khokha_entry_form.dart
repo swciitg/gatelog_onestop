@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
@@ -121,7 +120,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
             iconSize: 20,
           ),
           title: Text(
-            "Khokha Entry",
+            "CheckOut Form",
             textAlign: TextAlign.left,
             style: MyFonts.w500.size(23).setColor(OneStopColors.kWhite),
           ),

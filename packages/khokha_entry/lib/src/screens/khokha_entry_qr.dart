@@ -32,6 +32,7 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
 
   void initWebSocket(BuildContext context) async {
     channel = IOWebSocketChannel.connect(
+      
       Uri.parse(Endpoints.khokhaWebSocketUrl),
       headers: {
         'Content-Type': 'application/json',
