@@ -1,8 +1,6 @@
 class Endpoints {
-  static const khokhaWebSocketUrl =
-      String.fromEnvironment('KHOKHA-WEBSOCKET-URL');
-  static const onestopSecurityKey =
-      String.fromEnvironment('ONESTOP-SECURITY-KEY');
+  static const khokhaWebSocketUrl = String.fromEnvironment('KHOKHA-WEBSOCKET-URL');
+  static const onestopSecurityKey = String.fromEnvironment('SECURITY-KEY');
 
   static getHeader() {
     return {
