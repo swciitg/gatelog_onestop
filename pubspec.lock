@@ -228,7 +228,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: db5d434fcf93ef9fc4ced78afff371f70569897f
+      resolved-ref: cada431b9b48b1f2225f4a981ac64bbf6fdb6e28
       url: "https://github.com/swciitg/onestop_kit.git"
     source: git
     version: "0.0.1"
@@ -364,10 +364,10 @@ packages:
     dependency: transitive
     description:
       name: shimmer
-      sha256: "5f88c883a22e9f9f299e5ba0e4f7e6054857224976a5d9f839d4ebdc94a14ac9"
+      sha256: "1f1009b5845a1f88f1c5630212279540486f97409e9fc3f63883e71070d107bf"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "2.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
