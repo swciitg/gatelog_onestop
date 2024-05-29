@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:khokha_entry/src/apis.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
 import 'package:khokha_entry/src/models/entry_qr_model.dart';
 import 'package:khokha_entry/src/screens/khokha_entry_form.dart';
@@ -21,6 +22,14 @@ class _KhokhaHomeState extends State<KhokhaHome> {
     final data = await prefs.getString("entry_data");
     print(data);
     return data != null ? [EntryQrModel.fromJson(jsonDecode(data))] : [];
+  }
+
+
+  @override
+  void initState() {
+    final apis = Apis();
+    apis.getUserId();
+    super.initState();
   }
 
   @override

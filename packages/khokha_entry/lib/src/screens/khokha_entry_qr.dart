@@ -116,7 +116,6 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
   }
 
   QrImageView getQRImage(String data) {
-    final width = MediaQuery.of(context).size.width;
     return QrImageView(
       data: data,
       version: QrVersions.auto,
@@ -141,7 +140,6 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
     final isExit = widget.model is ExitQrModel;
     Map json = widget.model.toJson();
     json['isExit'] = isExit;
-
     print(json);
 
     return AlertDialog(
