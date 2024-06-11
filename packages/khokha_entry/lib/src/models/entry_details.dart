@@ -18,9 +18,7 @@
       "__v": 0
 */
 
-import 'package:khokha_entry/src/models/qr_model.dart';
-
-class ApiModel implements QrModel {
+class EntryDetails {
   String? connectionId;
   final String? entryGate;
   final String id;
@@ -36,11 +34,8 @@ class ApiModel implements QrModel {
   final DateTime? outTime;
   final DateTime? inTime;
   final bool isClosed;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final int v;
 
-  ApiModel({
+  EntryDetails({
     required this.connectionId,
     required this.entryGate,
     required this.id,
@@ -56,13 +51,10 @@ class ApiModel implements QrModel {
     required this.outTime,
     required this.inTime,
     required this.isClosed,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
   });
 
-  factory ApiModel.fromJson(Map<String, dynamic> map) {
-    return ApiModel(
+  factory EntryDetails.fromJson(Map<String, dynamic> map) {
+    return EntryDetails(
       connectionId: map['connectionId'],
       entryGate: map['entryGate'],
       id: map['_id'],
@@ -78,13 +70,9 @@ class ApiModel implements QrModel {
       outTime: DateTime.parse(map['outTime']),
       inTime: map['inTime'] != null ? DateTime.parse(map['inTime']) : null,
       isClosed: map['isClosed'],
-      createdAt: DateTime.parse(map['createdAt']),
-      updatedAt: DateTime.parse(map['updatedAt']),
-      v: map['__v'],
     );
   }
 
-  @override
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['connectionId'] = connectionId;
@@ -102,13 +90,9 @@ class ApiModel implements QrModel {
     data['outTime'] = outTime!.toIso8601String();
     data['inTime'] = inTime?.toIso8601String();
     data['isClosed'] = isClosed;
-    data['createdAt'] = createdAt!.toIso8601String();
-    data['updatedAt'] = updatedAt!.toIso8601String();
-    data['__v'] = v;
     return data;
   }
 
-  @override
   void setConnectionId(String connectionId) {
     this.connectionId = connectionId;
   }

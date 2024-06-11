@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:flutter/material.dart';
+import 'package:khokha_entry/src/globals/endpoints.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
-import 'package:khokha_entry/src/models/api_model.dart';
+import 'package:khokha_entry/src/models/entry_details.dart';
 import 'package:khokha_entry/src/models/entry_qr_model.dart';
 import 'package:khokha_entry/src/screens/khokha_entry_form.dart';
 import 'package:khokha_entry/src/stores/login_store.dart';
@@ -21,14 +22,20 @@ class KhokhaHome extends StatefulWidget {
 
 class _KhokhaHomeState extends State<KhokhaHome> {
   final int pageSize = 10;
-  final PagingController<int, ApiModel> _entryController =
+  final PagingController<int, EntryDetails> _entryController =
       PagingController(firstPageKey: 1, invisibleItemsThreshold: 1);
 
   @override
   void initState() {
     super.initState();
     _entryController.addPageRequestListener((pageKey) async {
-      await _fetchEntries(_entryController, APIService().pageEntries, pageKey);
+      await _fetchEntries(
+          _entryController,
+          APIService(
+            onestopBaseUrl: Endpoints.khokhaWebSocketUrl,
+            onestopSecurityKey: Endpoints.onestopSecurityKey,
+          ).getLogHistory,
+          pageKey);
     });
   }
 
@@ -91,7 +98,7 @@ class _KhokhaHomeState extends State<KhokhaHome> {
       backgroundColor: OneStopColors.backgroundColor,
       body: LoginStore().isGuestUser
           ? const GuestRestrictAccess()
-          : PagedListView<int, ApiModel>(
+          : PagedListView<int, EntryDetails>(
               pagingController: _entryController,
               builderDelegate: PagedChildBuilderDelegate(
                 itemBuilder: (context, entry, index) =>
@@ -99,16 +106,16 @@ class _KhokhaHomeState extends State<KhokhaHome> {
                 firstPageErrorIndicatorBuilder: (context) {
                   print(_entryController.error);
                   return Column(children: [
-                  ErrorReloadScreen(reloadCallback: reload_to_initial_state)
-                ]);
+                    ErrorReloadScreen(reloadCallback: reload_to_initial_state)
+                  ]);
                 },
                 noItemsFoundIndicatorBuilder: (context) =>
                     const PaginationText(text: "No Entries found"),
                 newPageErrorIndicatorBuilder: (context) {
                   print(_entryController.error);
                   return Column(children: [
-                  ErrorReloadScreen(reloadCallback: reload_for_newpage_error)
-                ]);
+                    ErrorReloadButton(reloadCallback: reload_for_newpage_error)
+                  ]);
                 },
                 newPageProgressIndicatorBuilder: (context) => const Padding(
                   padding: EdgeInsets.all(8.0),

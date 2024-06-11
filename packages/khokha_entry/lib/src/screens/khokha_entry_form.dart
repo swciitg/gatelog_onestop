@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
+import 'package:khokha_entry/src/models/entry_details.dart';
 import 'package:khokha_entry/src/models/exit_qr_model.dart';
 import 'package:khokha_entry/src/screens/khokha_entry_qr.dart';
 import 'package:khokha_entry/src/utility/validity.dart';
@@ -88,7 +89,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
     };
     final data = jsonEncode(mapData);
     debugPrint("Khokha Entry Data: $data");
-    final model = ExitQrModel.fromJson(mapData);
+    final model = EntryDetails.fromJson(mapData);
     showDialog(
       context: context,
       barrierDismissible: true,
