@@ -1,27 +1,7 @@
-/*
-      "entryGate": null,
-      "_id": "662d433bb77dc87fbc6a1101",
-      "name": "req.body.name",
-      "rollNumber": "210102036",
-      "outlookEmail": "r.hardik@iitg.ac.in",
-      "phoneNumber": 1234567890,
-      "program": "BTECH",
-      "branch": "CSE",
-      "hostel": "LOHIT",
-      "roomNumber": "ABCD",
-      "destination": "Khokha",
-      "outTime": "2024-04-27T18:26:03.000Z",
-      "inTime": null,
-      "isClosed": false,
-      "createdAt": "2024-04-27T18:26:03.701Z",
-      "updatedAt": "2024-04-27T18:26:03.701Z",
-      "__v": 0
-*/
-
 class EntryDetails {
   String? connectionId;
   final String? entryGate;
-  final String id;
+  final String entryId;
   final String name;
   final String rollNumber;
   final String outlookEmail;
@@ -38,7 +18,7 @@ class EntryDetails {
   EntryDetails({
     required this.connectionId,
     required this.entryGate,
-    required this.id,
+    required this.entryId,
     required this.name,
     required this.rollNumber,
     required this.outlookEmail,
@@ -57,7 +37,7 @@ class EntryDetails {
     return EntryDetails(
       connectionId: map['connectionId'],
       entryGate: map['entryGate'],
-      id: map['_id'],
+      entryId: map['_id'],
       name: map['name'],
       rollNumber: map['rollNumber'],
       outlookEmail: map['outlookEmail'],
@@ -77,7 +57,7 @@ class EntryDetails {
     final data = <String, dynamic>{};
     data['connectionId'] = connectionId;
     data['entryGate'] = entryGate;
-    data['_id'] = id;
+    data['entryId'] = entryId;
     data['name'] = name;
     data['rollNumber'] = rollNumber;
     data['outlookEmail'] = outlookEmail;

@@ -1,7 +1,7 @@
-abstract class QrModel {
+abstract class QrData {
   final String? connectionId;
 
-  QrModel({this.connectionId});
+  QrData({this.connectionId});
 
   Map<String, dynamic> toJson();
 

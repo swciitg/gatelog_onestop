@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
+import 'package:khokha_entry/src/models/check_in_qr_data.dart';
 import 'package:khokha_entry/src/models/entry_details.dart';
-import 'package:khokha_entry/src/screens/khokha_entry_qr.dart';
+import 'package:khokha_entry/src/screens/scan_qr_page.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
-class KhokhaEntryTile extends StatefulWidget {
-  const KhokhaEntryTile({Key? key, required this.entry}) : super(key: key);
+class EntryDetailsTile extends StatefulWidget {
+  const EntryDetailsTile({super.key, required this.entry});
 
   final EntryDetails entry;
+
   @override
-  State<KhokhaEntryTile> createState() => _KhokhaEntryTileState();
+  State<EntryDetailsTile> createState() => _EntryDetailsTileState();
 }
 
-class _KhokhaEntryTileState extends State<KhokhaEntryTile> {
+class _EntryDetailsTileState extends State<EntryDetailsTile> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -52,16 +54,12 @@ class _KhokhaEntryTileState extends State<KhokhaEntryTile> {
             );
             return;
           }
-          await showDialog(
-            context: context,
-            barrierDismissible: true,
-            builder: (context) {
-              return KhokhaEntryQR(
-                model: widget.entry,
-                destination: widget.entry.destination,
-              );
-            },
-          );
+          await Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ScanQrPage(
+              qrData: CheckInQrData.fromJson(widget.entry.toJson()),
+              destination: widget.entry.destination,
+            ),
+          ));
           setState(() {});
         },
       ),

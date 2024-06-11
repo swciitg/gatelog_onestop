@@ -39,12 +39,12 @@ class MyApp extends StatelessWidget {
                         'linkedin': 'linkedin',
                         'image': 'image',
                       }));
-  
+
                   await prefs.setString("accessToken",
                       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2NjRmNzhmM2FhZTg2NDIyNzU0YjE2ZjMiLCJpYXQiOjE3MTgwODQ0NjEsImV4cCI6MTcxODk0ODQ2MX0.T0R8hdUndkEJOVrFdujniuxTAEAmzrhpYeQCLw3eSzE");
                   await prefs.setBool('isGuest', false);
 
-                  nav.pushReplacement(MaterialPageRoute(
+                  nav.push(MaterialPageRoute(
                     builder: (context) => const KhokhaEntry(),
                   ));
                 },

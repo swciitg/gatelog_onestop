@@ -1,18 +1,18 @@
 import 'package:khokha_entry/src/models/qr_model.dart';
 
-class ExitQrModel implements QrModel {
+class CheckOutQrData implements QrData {
   final String destination;
   String? connectionId;
   final String userId;
 
-  ExitQrModel({
+  CheckOutQrData({
     required this.destination,
     required this.userId,
     this.connectionId,
   });
 
-  factory ExitQrModel.fromJson(Map<String, dynamic> map) {
-    return ExitQrModel(
+  factory CheckOutQrData.fromJson(Map<String, dynamic> map) {
+    return CheckOutQrData(
       userId: map['userId'],
       destination: map['destination'],
       connectionId: map['connectionId'],

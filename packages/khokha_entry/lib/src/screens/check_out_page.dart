@@ -2,31 +2,27 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:khokha_entry/src/apis.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
-import 'package:khokha_entry/src/models/entry_details.dart';
-import 'package:khokha_entry/src/models/exit_qr_model.dart';
-import 'package:khokha_entry/src/screens/khokha_entry_qr.dart';
+import 'package:khokha_entry/src/models/check_out_qr_data.dart';
+import 'package:khokha_entry/src/screens/scan_qr_page.dart';
+import 'package:khokha_entry/src/services/api.dart';
 import 'package:khokha_entry/src/utility/validity.dart';
-import 'package:khokha_entry/src/widgets/custom_drop_down.dart';
-import 'package:khokha_entry/src/widgets/custom_text_field.dart';
-import 'package:khokha_entry/src/widgets/destination_suggestions.dart';
+import 'package:khokha_entry/src/widgets/checkOutPage/custom_drop_down.dart';
+import 'package:khokha_entry/src/widgets/checkOutPage/custom_text_field.dart';
+import 'package:khokha_entry/src/widgets/checkOutPage/destination_suggestions.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class KhokhaEntryForm extends StatefulWidget {
+class CheckOutPage extends StatefulWidget {
   static const id = "/khokha_entry_form";
 
-  const KhokhaEntryForm({super.key});
+  const CheckOutPage({super.key});
 
   @override
-  State<KhokhaEntryForm> createState() => _KhokhaEntryFormState();
+  State<CheckOutPage> createState() => _CheckOutPageState();
 }
-// TODO: MAKE CODE CONCISE (FILE SIZE MUST BE < 250)
-// TODO: USE ONLY CLASS BASED WIDGETS
 
-class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
-  // form controllers
+class _CheckOutPageState extends State<CheckOutPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _rollController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -50,8 +46,8 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
     resetForm();
   }
 
-  Future<void> getUserId()async{
-    userId = await Apis().getUserId();
+  Future<void> getUserId() async {
+    userId = await APIService().getUserId();
   }
 
   void resetForm() async {
@@ -73,6 +69,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
   }
 
   void showQRImage() async {
+    final nav = Navigator.of(context);
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Please give all the inputs correctly')));
@@ -84,21 +81,17 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
     await getUserId();
     final mapData = {
       "destination": destination,
-      'userId' : userId,
+      'userId': userId,
     };
     final data = jsonEncode(mapData);
     debugPrint("Khokha Entry Data: $data");
-    final model = EntryDetails.fromJson(mapData);
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) {
-        return KhokhaEntryQR(
-          model: model,
-          destination: destination,
-        );
-      },
-    );
+    final model = CheckOutQrData.fromJson(mapData);
+    nav.push(MaterialPageRoute(
+      builder: (context) => ScanQrPage(
+        qrData: model,
+        destination: destination,
+      ),
+    ));
   }
 
   @override
@@ -183,7 +176,6 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                           children: [
                             CustomTextField(
                               label: 'Name',
-                              // validator: validatefield,
                               isNecessary: false,
                               controller: _nameController,
                               isEnabled: false,
@@ -223,61 +215,6 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                               isEnabled: false,
                             ),
                             const SizedBox(height: 12),
-                            // CustomDropDown(
-                            //   value: Program.none.displayString,
-                            //   items: Program.values.displayStrings(),
-                            //   label: 'Program',
-                            //   onChanged: (String p) {
-                            //     final updated = p.getProgramFromDisplayString();
-                            //     if (updated != null) {
-                            //       program = updated;
-                            //     }
-                            //   },
-                            //   validator: (String? p) {
-                            //     if (p != null) {
-                            //       final updated =
-                            //           p.getProgramFromDisplayString();
-                            //       if (updated == Program.none) {
-                            //         return "Select valid program";
-                            //       } else {
-                            //         return null;
-                            //       }
-                            //     }
-                            //     return "Select valid program";
-                            //   },
-                            // ),
-                            // const SizedBox(height: 12),
-                            // CustomDropDown(
-                            //   value: Branch.none.displayString,
-                            //   items: Branch.values.displayStrings(),
-                            //   label: 'Branch',
-                            //   onChanged: (String d) {
-                            //     final updated = d.getBranchFromDisplayString();
-                            //     if (updated != null) {
-                            //       branch = updated;
-                            //     }
-                            //   },
-                            //   validator: (String? b) {
-                            //     print(b.runtimeType);
-                            //     print(b);
-                            //     if (b != null) {
-                            //       final updated =
-                            //           b.getBranchFromDisplayString();
-                            //       if ((program == Program.bDes ||
-                            //               program == Program.mDes) &&
-                            //           updated != Branch.dod) {
-                            //         return "Select valid branch";
-                            //       }
-                            //       if (updated == Branch.none) {
-                            //         return "Select valid branch";
-                            //       } else {
-                            //         return null;
-                            //       }
-                            //     }
-                            //     return "Select valid branch";
-                            //   },
-                            // ),
-                            // const SizedBox(height: 12),
                             CustomTextField(
                               label: 'Hostel room no',
                               validator: validateField,
