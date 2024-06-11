@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:khokha_entry/src/apis.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
 import 'package:khokha_entry/src/models/entry_details.dart';
 import 'package:khokha_entry/src/models/exit_qr_model.dart';
@@ -34,9 +35,8 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
   final TextEditingController _destinationController = TextEditingController();
   Hostel hostel = Hostel.none;
   final List<Hostel> hostels = Hostel.values;
-  var program = Program.none;
-  var branch = Branch.none;
   var selectedDestination = "Khokha";
+  var userId = '';
   final destinationSuggestions = [
     "Khokha",
     "City",
@@ -50,19 +50,24 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
     resetForm();
   }
 
+  Future<void> getUserId()async{
+    userId = await Apis().getUserId();
+  }
+
   void resetForm() async {
     final prefs = await SharedPreferences.getInstance();
     final userData = jsonDecode((await prefs.getString("userInfo"))!);
-    var p = OneStopUser.fromJson(userData);
-    _nameController.text = p.name;
-    _rollController.text = p.rollNo.toString();
+    var user = OneStopUser.fromJson(userData);
+    _nameController.text = user.name;
+    _rollController.text = user.rollNo.toString();
     _phoneController.text =
-        p.phoneNumber == null ? "" : p.phoneNumber.toString();
-    _roomNoController.text = p.roomNo ?? "";
+        user.phoneNumber == null ? "" : user.phoneNumber.toString();
+    _roomNoController.text = user.roomNo ?? "";
     _destinationController.text = "";
-    _emailController.text = p.outlookEmail;
+    _emailController.text = user.outlookEmail;
+    print("User Hostel : ${user.hostel}");
     hostel = Hostel.values
-        .firstWhere((element) => element.displayString == p.hostel);
+        .firstWhere((element) => element.displayString == user.hostel);
     selectedDestination = destinationSuggestions.first;
     setState(() {});
   }
@@ -76,16 +81,10 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
     final destination = selectedDestination == "Other"
         ? _destinationController.text
         : selectedDestination;
+    await getUserId();
     final mapData = {
-      "name": _nameController.text,
-      "outlookEmail": _emailController.text,
-      "rollNumber": _rollController.text,
-      "phoneNumber": _phoneController.text,
-      "roomNumber": _roomNoController.text,
-      "hostel": hostel.databaseString,
-      "program": program.databaseString,
-      "branch": branch.databaseString,
       "destination": destination,
+      'userId' : userId,
     };
     final data = jsonEncode(mapData);
     debugPrint("Khokha Entry Data: $data");
@@ -191,7 +190,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                             ),
                             const SizedBox(height: 12),
                             CustomDropDown(
-                              value: Hostel.none.displayString,
+                              value: hostel.displayString,
                               items: Hostel.values.displayStrings(),
                               label: 'Hostel',
                               onChanged: (String h) {
@@ -221,63 +220,64 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                               isNecessary: true,
                               controller: _emailController,
                               maxLines: 1,
+                              isEnabled: false,
                             ),
                             const SizedBox(height: 12),
-                            CustomDropDown(
-                              value: Program.none.displayString,
-                              items: Program.values.displayStrings(),
-                              label: 'Program',
-                              onChanged: (String p) {
-                                final updated = p.getProgramFromDisplayString();
-                                if (updated != null) {
-                                  program = updated;
-                                }
-                              },
-                              validator: (String? p) {
-                                if (p != null) {
-                                  final updated =
-                                      p.getProgramFromDisplayString();
-                                  if (updated == Program.none) {
-                                    return "Select valid program";
-                                  } else {
-                                    return null;
-                                  }
-                                }
-                                return "Select valid program";
-                              },
-                            ),
-                            const SizedBox(height: 12),
-                            CustomDropDown(
-                              value: Branch.none.displayString,
-                              items: Branch.values.displayStrings(),
-                              label: 'Branch',
-                              onChanged: (String d) {
-                                final updated = d.getBranchFromDisplayString();
-                                if (updated != null) {
-                                  branch = updated;
-                                }
-                              },
-                              validator: (String? b) {
-                                print(b.runtimeType);
-                                print(b);
-                                if (b != null) {
-                                  final updated =
-                                      b.getBranchFromDisplayString();
-                                  if ((program == Program.bDes ||
-                                          program == Program.mDes) &&
-                                      updated != Branch.dod) {
-                                    return "Select valid branch";
-                                  }
-                                  if (updated == Branch.none) {
-                                    return "Select valid branch";
-                                  } else {
-                                    return null;
-                                  }
-                                }
-                                return "Select valid branch";
-                              },
-                            ),
-                            const SizedBox(height: 12),
+                            // CustomDropDown(
+                            //   value: Program.none.displayString,
+                            //   items: Program.values.displayStrings(),
+                            //   label: 'Program',
+                            //   onChanged: (String p) {
+                            //     final updated = p.getProgramFromDisplayString();
+                            //     if (updated != null) {
+                            //       program = updated;
+                            //     }
+                            //   },
+                            //   validator: (String? p) {
+                            //     if (p != null) {
+                            //       final updated =
+                            //           p.getProgramFromDisplayString();
+                            //       if (updated == Program.none) {
+                            //         return "Select valid program";
+                            //       } else {
+                            //         return null;
+                            //       }
+                            //     }
+                            //     return "Select valid program";
+                            //   },
+                            // ),
+                            // const SizedBox(height: 12),
+                            // CustomDropDown(
+                            //   value: Branch.none.displayString,
+                            //   items: Branch.values.displayStrings(),
+                            //   label: 'Branch',
+                            //   onChanged: (String d) {
+                            //     final updated = d.getBranchFromDisplayString();
+                            //     if (updated != null) {
+                            //       branch = updated;
+                            //     }
+                            //   },
+                            //   validator: (String? b) {
+                            //     print(b.runtimeType);
+                            //     print(b);
+                            //     if (b != null) {
+                            //       final updated =
+                            //           b.getBranchFromDisplayString();
+                            //       if ((program == Program.bDes ||
+                            //               program == Program.mDes) &&
+                            //           updated != Branch.dod) {
+                            //         return "Select valid branch";
+                            //       }
+                            //       if (updated == Branch.none) {
+                            //         return "Select valid branch";
+                            //       } else {
+                            //         return null;
+                            //       }
+                            //     }
+                            //     return "Select valid branch";
+                            //   },
+                            // ),
+                            // const SizedBox(height: 12),
                             CustomTextField(
                               label: 'Hostel room no',
                               validator: validateField,
@@ -286,6 +286,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                               maxLength: 5,
                               maxLines: 1,
                               counter: true,
+                              isEnabled: false,
                             ),
                             const SizedBox(height: 12),
                             CustomTextField(
@@ -306,6 +307,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                               maxLength: 9,
                               maxLines: 1,
                               counter: true,
+                              isEnabled: false,
                             ),
                             const SizedBox(height: 12),
                             CustomTextField(
@@ -327,6 +329,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                               maxLength: 10,
                               maxLines: 1,
                               counter: true,
+                              isEnabled: false,
                             ),
                             const SizedBox(height: 12),
                             DestinationSuggestions(

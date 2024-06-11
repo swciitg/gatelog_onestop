@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:flutter/material.dart';
+import 'package:khokha_entry/src/apis.dart';
 import 'package:khokha_entry/src/globals/endpoints.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
 import 'package:khokha_entry/src/models/entry_details.dart';
@@ -84,7 +85,14 @@ class _KhokhaHomeState extends State<KhokhaHome> {
     return data != null ? [EntryQrModel.fromJson(jsonDecode(data))] : [];
   }
 
-// EntryQrModel test =
+  @override
+  void initState() {
+    final apis = Apis();
+    apis.getUserId();
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
