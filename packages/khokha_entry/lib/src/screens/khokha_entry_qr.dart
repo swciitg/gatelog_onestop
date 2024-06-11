@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:khokha_entry/src/globals/endpoints.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
+import 'package:khokha_entry/src/models/entry_details.dart';
 import 'package:khokha_entry/src/models/entry_qr_model.dart';
 import 'package:khokha_entry/src/models/exit_qr_model.dart';
 import 'package:khokha_entry/src/models/qr_model.dart';
@@ -20,7 +21,7 @@ class KhokhaEntryQR extends StatefulWidget {
     required this.destination,
   });
 
-  final QrModel model;
+  final EntryDetails model;
   final String destination;
 
   @override
@@ -32,7 +33,6 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
 
   void initWebSocket(BuildContext context) async {
     channel = IOWebSocketChannel.connect(
-      
       Uri.parse(Endpoints.khokhaWebSocketUrl),
       headers: {
         'Content-Type': 'application/json',
@@ -183,7 +183,7 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
             ),
           if (!isExit)
             Builder(builder: (context) {
-              final data = widget.model as EntryQrModel;
+              final data = widget.model as EntryDetails;
               final time = data.outTime;
               final destination = data.destination;
               return Column(
@@ -193,7 +193,7 @@ class _KhokhaEntryQRState extends State<KhokhaEntryQR> {
                 children: [
                   const SizedBox(height: 16),
                   Text(
-                    "Entry Added at: ${time.hour}: ${time.minute}",
+                    "Entry Added at: ${time?.hour}: ${time?.minute}",
                     style: MyFonts.w500
                         .setColor(OneStopColors.cardFontColor2)
                         .size(14),
