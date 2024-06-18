@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:khokha_entry/src/globals/my_fonts.dart';
+import 'package:gate_log/src/globals/my_fonts.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class DestinationSuggestions extends StatelessWidget {
@@ -19,7 +19,7 @@ class DestinationSuggestions extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             "Destination: ",

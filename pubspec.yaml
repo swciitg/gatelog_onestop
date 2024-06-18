@@ -30,8 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  khokha_entry:
-    path: packages/khokha_entry
+  gate_log:
+    path: packages/gate_log
 
 
   # The following adds the Cupertino Icons font to your application.

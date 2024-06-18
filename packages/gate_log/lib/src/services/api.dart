@@ -1,5 +1,5 @@
-import 'package:khokha_entry/src/globals/endpoints.dart';
-import 'package:khokha_entry/src/models/entry_details.dart';
+import 'package:gate_log/src/globals/endpoints.dart';
+import 'package:gate_log/src/models/entry_details.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class APIService extends OneStopApi {

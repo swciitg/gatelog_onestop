@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:khokha_entry/khokha_entry.dart';
+import 'package:gate_log/gate_log.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'KhokhaEntry',
+      title: 'GateLog',
       home: Builder(builder: (context) {
         return Scaffold(
           body: Center(
@@ -45,10 +45,10 @@ class MyApp extends StatelessWidget {
                   await prefs.setBool('isGuest', false);
 
                   nav.push(MaterialPageRoute(
-                    builder: (context) => const KhokhaEntry(),
+                    builder: (context) => const GateLog(),
                   ));
                 },
-                child: const Text('KhokhaEntry')),
+                child: const Text('GateLog')),
           ),
         );
       }),

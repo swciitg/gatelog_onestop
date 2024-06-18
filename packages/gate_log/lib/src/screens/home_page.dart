@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gate_log/src/globals/my_fonts.dart';
+import 'package:gate_log/src/models/entry_details.dart';
+import 'package:gate_log/src/screens/check_out_page.dart';
+import 'package:gate_log/src/services/api.dart';
+import 'package:gate_log/src/stores/login_store.dart';
+import 'package:gate_log/src/widgets/guest_restrict.dart';
+import 'package:gate_log/src/widgets/home/entry_details_tile.dart';
+import 'package:gate_log/src/widgets/shimmers/list_shimmer.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:khokha_entry/src/globals/my_fonts.dart';
-import 'package:khokha_entry/src/models/entry_details.dart';
-import 'package:khokha_entry/src/screens/check_out_page.dart';
-import 'package:khokha_entry/src/services/api.dart';
-import 'package:khokha_entry/src/stores/login_store.dart';
-import 'package:khokha_entry/src/widgets/guest_restrict.dart';
-import 'package:khokha_entry/src/widgets/home/entry_details_tile.dart';
-import 'package:khokha_entry/src/widgets/shimmers/list_shimmer.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class HomePage extends StatefulWidget {
@@ -53,12 +53,18 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: OneStopColors.secondaryColor,
-        title: Text(
-          "All Entries",
-          style: MyFonts.w500.setColor(OneStopColors.kWhite),
-        ),
-      ),
+          backgroundColor: OneStopColors.backgroundColor,
+          centerTitle: true,
+          leadingWidth: 100,
+          scrolledUnderElevation: 0,
+          leading: OneStopBackButton(
+            onTap: () {
+              Navigator.of(context, rootNavigator: true).pop();
+            },
+          ),
+          title: AppBarTitle(
+            title: 'GateLog',
+          )),
       backgroundColor: OneStopColors.backgroundColor,
       body: LoginStore().isGuestUser
           ? const GuestRestrictAccess()
@@ -71,12 +77,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 firstPageErrorIndicatorBuilder: (context) {
                   print(_entryController.error);
-                  return Column(
-                    children: [
-                      ErrorReloadScreen(
-                          reloadCallback: _entryController.refresh),
-                    ],
-                  );
+                  return Column(children: [
+                    ErrorReloadScreen(reloadCallback: _entryController.refresh),
+                  ]);
                 },
                 noItemsFoundIndicatorBuilder: (context) =>
                     const PaginationText(text: "No Entries found"),

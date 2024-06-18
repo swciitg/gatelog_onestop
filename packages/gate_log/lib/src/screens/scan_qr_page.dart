@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:khokha_entry/src/globals/endpoints.dart';
-import 'package:khokha_entry/src/globals/my_fonts.dart';
-import 'package:khokha_entry/src/models/check_out_qr_data.dart';
-import 'package:khokha_entry/src/models/qr_model.dart';
-import 'package:khokha_entry/src/screens/home_page.dart';
-import 'package:khokha_entry/src/utility/enums.dart';
-import 'package:khokha_entry/src/widgets/qrScreen/qr_image.dart';
+import 'package:gate_log/src/globals/endpoints.dart';
+import 'package:gate_log/src/globals/my_fonts.dart';
+import 'package:gate_log/src/models/check_out_qr_data.dart';
+import 'package:gate_log/src/models/qr_model.dart';
+import 'package:gate_log/src/screens/home_page.dart';
+import 'package:gate_log/src/utility/enums.dart';
+import 'package:gate_log/src/widgets/qrScreen/qr_image.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:web_socket_channel/io.dart';
 
@@ -103,15 +103,22 @@ class _ScanQrPageState extends State<ScanQrPage> {
     return Scaffold(
       backgroundColor: OneStopColors.backgroundColor,
       appBar: AppBar(
-        backgroundColor: OneStopColors.secondaryColor,
+        backgroundColor: OneStopColors.backgroundColor,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(1),
+          child: Container(
+            height: 1,
+            color: OneStopColors.cardColor,
+          ),
+        ),
         foregroundColor: Colors.white,
         title: Text('Scan the QR'),
       ),
       body: Center(
         child: Container(
           decoration: BoxDecoration(
-              color: OneStopColors.secondaryColor,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
+              color: OneStopColors.cardColor1,
+              borderRadius: BorderRadius.all(Radius.circular(30))),
           padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisSize: MainAxisSize.min,

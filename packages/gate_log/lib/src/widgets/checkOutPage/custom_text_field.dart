@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:khokha_entry/src/globals/my_fonts.dart';
+import 'package:gate_log/src/globals/my_fonts.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class CustomTextField extends StatefulWidget {

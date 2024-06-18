@@ -1,4 +1,4 @@
-import 'package:khokha_entry/src/models/qr_model.dart';
+import 'package:gate_log/src/models/qr_model.dart';
 
 class CheckInQrData implements QrData {
   String? connectionId;
