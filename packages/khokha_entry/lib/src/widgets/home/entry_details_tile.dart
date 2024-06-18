@@ -1,11 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:khokha_entry/src/globals/my_fonts.dart';
 import 'package:khokha_entry/src/models/check_in_qr_data.dart';
 import 'package:khokha_entry/src/models/entry_details.dart';
 import 'package:khokha_entry/src/screens/scan_qr_page.dart';
 import 'package:onestop_kit/onestop_kit.dart';
-import 'dart:math';
-import 'package:intl/intl.dart';
 
 class EntryDetailsTile extends StatefulWidget {
   const EntryDetailsTile(
@@ -39,8 +40,7 @@ class _EntryDetailsTileState extends State<EntryDetailsTile> {
                         children: [
                           Text("Destination",
                               style: MyFonts.w500
-                                  .setColor(
-                                      OneStopColors.entryTileSecondaryColor)
+                                  .setColor(OneStopColors.secondaryColor)
                                   .size(12)),
                           Text(widget.entry.destination,
                               style: MyFonts.w600
@@ -50,7 +50,7 @@ class _EntryDetailsTileState extends State<EntryDetailsTile> {
                       ),
                       Text("Closed",
                           style: MyFonts.w500
-                              .setColor(OneStopColors.entryTileStatusColor)
+                              .setColor(OneStopColors.secondaryColor)
                               .size(12))
                     ],
                   ),
@@ -63,7 +63,7 @@ class _EntryDetailsTileState extends State<EntryDetailsTile> {
                           Text(
                             "Exit Gate",
                             style: MyFonts.w500
-                                .setColor(OneStopColors.entryTileSecondaryColor)
+                                .setColor(OneStopColors.secondaryColor)
                                 .size(10),
                           ),
                           Text("Dummy Text",
@@ -74,7 +74,7 @@ class _EntryDetailsTileState extends State<EntryDetailsTile> {
                           Text(
                             "Exit Date and Time",
                             style: MyFonts.w500
-                                .setColor(OneStopColors.entryTileSecondaryColor)
+                                .setColor(OneStopColors.secondaryColor)
                                 .size(10),
                           ),
                           Text(
@@ -106,7 +106,7 @@ class _EntryDetailsTileState extends State<EntryDetailsTile> {
                           Text(
                             "Entry Gate",
                             style: MyFonts.w500
-                                .setColor(OneStopColors.entryTileSecondaryColor)
+                                .setColor(OneStopColors.secondaryColor)
                                 .size(10),
                           ),
                           Text("Dummy Text",
@@ -117,7 +117,7 @@ class _EntryDetailsTileState extends State<EntryDetailsTile> {
                           Text(
                             "Entry Date and Time",
                             style: MyFonts.w500
-                                .setColor(OneStopColors.entryTileSecondaryColor)
+                                .setColor(OneStopColors.secondaryColor)
                                 .size(10),
                           ),
                           Text(
@@ -147,8 +147,7 @@ class _EntryDetailsTileState extends State<EntryDetailsTile> {
                         children: [
                           Text("Destination",
                               style: MyFonts.w500
-                                  .setColor(
-                                      OneStopColors.entryTileSecondaryColor)
+                                  .setColor(OneStopColors.secondaryColor)
                                   .size(12)),
                           Text(widget.entry.destination,
                               style: MyFonts.w600
@@ -173,7 +172,7 @@ class _EntryDetailsTileState extends State<EntryDetailsTile> {
                                 height: 23,
                                 width: 45,
                                 decoration: BoxDecoration(
-                                    color: OneStopColors.entryTileButtonColor,
+                                    color: OneStopColors.secondaryColor,
                                     borderRadius: BorderRadius.circular(8)),
                                 child: Center(
                                     child: Text("QR",
@@ -185,7 +184,7 @@ class _EntryDetailsTileState extends State<EntryDetailsTile> {
                             )
                           : Text("Open",
                               style: MyFonts.w500
-                                  .setColor(OneStopColors.entryTileStatusColor)
+                                  .setColor(OneStopColors.secondaryColor)
                                   .size(12))
                     ],
                   ),
@@ -198,7 +197,7 @@ class _EntryDetailsTileState extends State<EntryDetailsTile> {
                           Text(
                             "Exit Gate",
                             style: MyFonts.w500
-                                .setColor(OneStopColors.entryTileSecondaryColor)
+                                .setColor(OneStopColors.secondaryColor)
                                 .size(10),
                           ),
                           Text("Dummy Text",
@@ -224,7 +223,7 @@ class _EntryDetailsTileState extends State<EntryDetailsTile> {
                           Text(
                             "Exit Date and Time",
                             style: MyFonts.w500
-                                .setColor(OneStopColors.entryTileSecondaryColor)
+                                .setColor(OneStopColors.secondaryColor)
                                 .size(10),
                           ),
                           Text(
