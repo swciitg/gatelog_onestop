@@ -49,16 +49,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
-  cupertino_icons:
-    dependency: "direct main"
-    description:
-      name: cupertino_icons
-      sha256: ba631d1c7f7bef6b729a622b7b752645a2d076dba9976925b8f25725a30e1ee6
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.8"
   dio:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dio
       sha256: "11e40df547d418cc0c4900a9318b26304e665da6fa4755399a9ff9efd09034b5"
@@ -103,7 +95,7 @@ packages:
     source: hosted
     version: "3.0.2"
   flutter_riverpod:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_riverpod
       sha256: "0f1974eff5bbe774bf1d870e406fc6f29e3d6f1c46bd9c58e7172ff68a785d7d"
@@ -145,7 +137,7 @@ packages:
     source: hosted
     version: "4.0.2"
   infinite_scroll_pagination:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: infinite_scroll_pagination
       sha256: b68bce20752fcf36c7739e60de4175494f74e99e9a69b4dd2fe3a1dd07a7f16a
@@ -153,7 +145,7 @@ packages:
     source: hosted
     version: "4.0.0"
   intl:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: intl
       sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
@@ -168,13 +160,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.9.0"
-  khokha_entry:
-    dependency: "direct main"
-    description:
-      path: "packages/khokha_entry"
-      relative: true
-    source: path
-    version: "0.0.1"
   leak_tracker:
     dependency: transitive
     description:
@@ -232,7 +217,7 @@ packages:
     source: hosted
     version: "1.11.0"
   onestop_kit:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "."
       ref: HEAD
@@ -297,7 +282,7 @@ packages:
     source: hosted
     version: "3.0.1"
   qr_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: qr_flutter
       sha256: "5095f0fc6e3f71d08adef8feccc8cea4f12eec18a2e31c2e8d82cb6019f4b097"
@@ -369,7 +354,7 @@ packages:
     source: hosted
     version: "2.3.2"
   shimmer:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shimmer
       sha256: "1f1009b5845a1f88f1c5630212279540486f97409e9fc3f63883e71070d107bf"
@@ -446,7 +431,7 @@ packages:
     source: hosted
     version: "0.6.1"
   timeago:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: timeago
       sha256: d3204eb4c788214883380253da7f23485320a58c11d145babc82ad16bf4e7764
@@ -486,7 +471,7 @@ packages:
     source: hosted
     version: "0.5.1"
   web_socket_channel:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: web_socket_channel
       sha256: "58c6666b342a38816b2e7e50ed0f1e261959630becd4c879c4f26bfa14aa5a42"
