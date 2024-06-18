@@ -65,8 +65,10 @@ class _HomePageState extends State<HomePage> {
           : PagedListView<int, EntryDetails>(
               pagingController: _entryController,
               builderDelegate: PagedChildBuilderDelegate(
-                itemBuilder: (context, entry, index) =>
-                    EntryDetailsTile(entry: entry),
+                itemBuilder: (context, entry, index) => EntryDetailsTile(
+                  entry: entry,
+                  isFirst: index == 0,
+                ),
                 firstPageErrorIndicatorBuilder: (context) {
                   print(_entryController.error);
                   return Column(
