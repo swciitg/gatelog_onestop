@@ -81,22 +81,23 @@ class _PartialDetailsState extends State<PartialDetails> {
         const SizedBox(height: 14),
         Row(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Check-Out Gate",
-                  style: MyFonts.w500
-                      .setColor(OneStopColors.onSecondaryColor2)
-                      .size(10),
-                ),
-                Text(widget.details.checkOutGate,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Check-Out Gate",
                     style: MyFonts.w500
-                        .setColor(OneStopColors.cardFontColor2)
-                        .size(12)),
-              ],
+                        .setColor(OneStopColors.onSecondaryColor2)
+                        .size(10),
+                  ),
+                  Text(widget.details.checkOutGate,
+                      style: MyFonts.w500
+                          .setColor(OneStopColors.cardFontColor2)
+                          .size(12)),
+                ],
+              ),
             ),
-            Spacer(),
             CustomPaint(
               painter: LinePainter(
                   firstOffset: Offset(0, -1 * 13),
@@ -106,23 +107,27 @@ class _PartialDetailsState extends State<PartialDetails> {
                   dashLength: 2,
                   dashSpace: 2),
             ),
-            Spacer(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Check-Out Date and Time",
-                  style: MyFonts.w500
-                      .setColor(OneStopColors.onSecondaryColor2)
-                      .size(10),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Check-Out Date & Time",
+                      style: MyFonts.w500
+                          .setColor(OneStopColors.onSecondaryColor2)
+                          .size(10),
+                    ),
+                    Text(
+                        DateFormat('MMM dd, h:mm a')
+                            .format(widget.details.checkOutTime.toLocal()),
+                        style: MyFonts.w500
+                            .setColor(OneStopColors.cardFontColor2)
+                            .size(12)),
+                  ],
                 ),
-                Text(
-                    DateFormat('dd MMM, yyyy h:mm a')
-                        .format(widget.details.checkOutTime),
-                    style: MyFonts.w500
-                        .setColor(OneStopColors.cardFontColor2)
-                        .size(12)),
-              ],
+              ),
             ),
           ],
         )

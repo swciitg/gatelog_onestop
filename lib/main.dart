@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
                         'roomNo': 'ABCD',
                         'homeAddress': 'homeAddress',
                         'dob': 'dob',
-                        'hostel': 'Lohit',
+                        'hostel': 'LOHIT',
                         'linkedin': 'linkedin',
                         'image': 'image',
                       }));

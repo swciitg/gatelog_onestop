@@ -50,42 +50,37 @@ class _FullDetailsState extends State<FullDetails> {
         const SizedBox(height: 14),
         Row(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Check-Out Gate",
-                  style: MyFonts.w500
-                      .setColor(OneStopColors.onSecondaryColor2)
-                      .size(10),
-                ),
-                Text(widget.details.checkOutGate,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Check-Out Gate",
+                    style: MyFonts.w500
+                        .setColor(OneStopColors.onSecondaryColor2)
+                        .size(10),
+                  ),
+                  Text(widget.details.checkOutGate,
+                      style: MyFonts.w500
+                          .setColor(OneStopColors.cardFontColor2)
+                          .size(12)),
+                  const SizedBox(height: 7),
+                  Text(
+                    "Check-Out Date & Time",
+                    style: MyFonts.w500
+                        .setColor(OneStopColors.onSecondaryColor2)
+                        .size(10),
+                  ),
+                  Text(
+                    DateFormat('MMM dd, h:mm a')
+                        .format(widget.details.checkOutTime.toLocal()),
                     style: MyFonts.w500
                         .setColor(OneStopColors.cardFontColor2)
-                        .size(12)),
-                const SizedBox(height: 7),
-                Text(
-                  "Check-Out Date and Time",
-                  style: MyFonts.w500
-                      .setColor(OneStopColors.onSecondaryColor2)
-                      .size(10),
-                ),
-                Text(
-                  DateFormat('dd MMM, yyyy')
-                      .format(widget.details.checkOutTime),
-                  style: MyFonts.w500
-                      .setColor(OneStopColors.cardFontColor2)
-                      .size(12),
-                ),
-                Text(
-                  DateFormat('h:mm a').format(widget.details.checkOutTime),
-                  style: MyFonts.w500
-                      .setColor(OneStopColors.cardFontColor2)
-                      .size(12),
-                ),
-              ],
+                        .size(12),
+                  ),
+                ],
+              ),
             ),
-            Spacer(),
             CustomPaint(
               painter: LinePainter(
                   firstOffset: Offset(0, -41),
@@ -95,38 +90,38 @@ class _FullDetailsState extends State<FullDetails> {
                   dashLength: 2,
                   dashSpace: 2),
             ),
-            Spacer(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Check-In Gate",
-                  style: MyFonts.w500
-                      .setColor(OneStopColors.onSecondaryColor2)
-                      .size(10),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Check-In Gate",
+                      style: MyFonts.w500
+                          .setColor(OneStopColors.onSecondaryColor2)
+                          .size(10),
+                    ),
+                    Text(widget.details.checkInGate!,
+                        style: MyFonts.w500
+                            .setColor(OneStopColors.cardFontColor2)
+                            .size(12)),
+                    const SizedBox(height: 7),
+                    Text(
+                      "Check-In Date & Time",
+                      style: MyFonts.w500
+                          .setColor(OneStopColors.onSecondaryColor2)
+                          .size(10),
+                    ),
+                    Text(
+                        DateFormat('MMM dd, h:mm a')
+                            .format(widget.details.checkOutTime.toLocal()),
+                        style: MyFonts.w500
+                            .setColor(OneStopColors.cardFontColor2)
+                            .size(12)),
+                  ],
                 ),
-                Text(widget.details.checkInGate!,
-                    style: MyFonts.w500
-                        .setColor(OneStopColors.cardFontColor2)
-                        .size(12)),
-                const SizedBox(height: 7),
-                Text(
-                  "Check-In Date and Time",
-                  style: MyFonts.w500
-                      .setColor(OneStopColors.onSecondaryColor2)
-                      .size(10),
-                ),
-                Text(
-                    "${DateFormat('dd MMM, yyyy').format(widget.details.checkOutTime)}",
-                    style: MyFonts.w500
-                        .setColor(OneStopColors.cardFontColor2)
-                        .size(12)),
-                Text(
-                    "${DateFormat('h:mm a').format(widget.details.checkOutTime)}",
-                    style: MyFonts.w500
-                        .setColor(OneStopColors.cardFontColor2)
-                        .size(12)),
-              ],
+              ),
             ),
           ],
         )

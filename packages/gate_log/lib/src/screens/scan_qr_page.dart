@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gate_log/src/globals/endpoints.dart';
 import 'package:gate_log/src/globals/my_fonts.dart';
 import 'package:gate_log/src/models/check_out_qr_data.dart';
 import 'package:gate_log/src/models/qr_model.dart';
 import 'package:gate_log/src/screens/home_page.dart';
 import 'package:gate_log/src/utility/enums.dart';
+import 'package:gate_log/src/widgets/custom_app_bar.dart';
 import 'package:gate_log/src/widgets/qrScreen/qr_image.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:web_socket_channel/io.dart';
@@ -102,17 +104,11 @@ class _ScanQrPageState extends State<ScanQrPage> {
 
     return Scaffold(
       backgroundColor: OneStopColors.backgroundColor,
-      appBar: AppBar(
-        backgroundColor: OneStopColors.backgroundColor,
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1),
-          child: Container(
-            height: 1,
-            color: OneStopColors.cardColor,
-          ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(56),
+        child: CustomAppBar(
+          title: 'Scan the QR',
         ),
-        foregroundColor: Colors.white,
-        title: Text('Scan the QR'),
       ),
       body: Center(
         child: Column(
@@ -165,8 +161,9 @@ class _ScanQrPageState extends State<ScanQrPage> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Image.asset(
-                'packages/gate_log/assets/images/logo.png',
+              child: SvgPicture.asset(
+                'assets/images/swc_ec_logo.svg',
+                package: 'gate_log',
                 width: MediaQuery.of(context).size.width * 0.8,
               ),
             ),

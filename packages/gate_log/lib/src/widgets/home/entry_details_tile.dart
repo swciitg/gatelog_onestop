@@ -23,7 +23,7 @@ class _EntryDetailsTileState extends State<EntryDetailsTile> {
         color: OneStopColors.cardColor1,
         borderRadius: BorderRadius.circular(20),
       ),
-      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      padding: EdgeInsets.fromLTRB(24, 16, 15, 16),
       margin: EdgeInsets.only(top: 15, left: 10, right: 10),
       child: widget.entry.isClosed
           ? FullDetails(details: widget.entry)
