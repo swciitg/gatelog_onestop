@@ -4,8 +4,6 @@ class EntryDetails {
   final String rollNumber;
   final String outlookEmail;
   final int phoneNumber;
-  final String program;
-  final String branch;
   final String hostel;
   final String roomNumber;
   final String destination;
@@ -23,8 +21,6 @@ class EntryDetails {
     required this.rollNumber,
     required this.outlookEmail,
     required this.phoneNumber,
-    required this.program,
-    required this.branch,
     required this.hostel,
     required this.roomNumber,
     required this.destination,
@@ -42,14 +38,13 @@ class EntryDetails {
       rollNumber: json['rollNumber'],
       outlookEmail: json['outlookEmail'],
       phoneNumber: json['phoneNumber'],
-      program: json['program'],
-      branch: json['branch'],
       hostel: json['hostel'],
       roomNumber: json['roomNumber'],
       destination: json['destination'],
-      checkOutTime: DateTime.parse(json['outTime']),
-      checkInTime:
-          json['inTime'] != null ? DateTime.parse(json['inTime']) : null,
+      checkOutTime: DateTime.parse(json['checkOutTime']),
+      checkInTime: json['checkInTime'] != null
+          ? DateTime.parse(json['checkInTime'])
+          : null,
       isClosed: json['isClosed'],
     );
   }
@@ -63,8 +58,6 @@ class EntryDetails {
       'rollNumber': rollNumber,
       'outlookEmail': outlookEmail,
       'phoneNumber': phoneNumber,
-      'program': program,
-      'branch': branch,
       'hostel': hostel,
       'roomNumber': roomNumber,
       'destination': destination,

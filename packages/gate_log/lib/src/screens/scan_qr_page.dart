@@ -115,50 +115,62 @@ class _ScanQrPageState extends State<ScanQrPage> {
         title: Text('Scan the QR'),
       ),
       body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-              color: OneStopColors.cardColor1,
-              borderRadius: BorderRadius.all(Radius.circular(30))),
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: width * 0.7,
-                height: width * 0.7,
-                child: json['connectionId'] == null
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          color: OneStopColors.primaryColor,
+        child: Column(
+          children: [
+            Expanded(
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: OneStopColors.cardColor1,
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: width * 0.7,
+                          height: width * 0.7,
+                          child: json['connectionId'] == null
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    color: OneStopColors.primaryColor,
+                                  ),
+                                )
+                              : QrImage(data: jsonEncode(json)),
                         ),
-                      )
-                    : QrImage(data: jsonEncode(json)),
-              ),
-              const SizedBox(height: 10),
-              RichText(
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Destination: ',
-                      style: MyFonts.w500
-                          .setColor(OneStopColors.cardFontColor2)
-                          .size(18),
-                    ),
-                    TextSpan(
-                      text: widget.destination,
-                      style: MyFonts.w500
-                          .setColor(OneStopColors.primaryColor)
-                          .size(18),
-                    ),
-                  ],
+                        const SizedBox(height: 10),
+                        RichText(
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          text: TextSpan(children: [
+                            TextSpan(
+                              text: 'Destination: ',
+                              style: MyFonts.w500
+                                  .setColor(OneStopColors.cardFontColor2)
+                                  .size(18),
+                            ),
+                            TextSpan(
+                              text: widget.destination,
+                              style: MyFonts.w500
+                                  .setColor(OneStopColors.primaryColor)
+                                  .size(18),
+                            ),
+                          ]),
+                        ),
+                      ]),
                 ),
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: MediaQuery.of(context).size.width * 0.8,
+              ),
+            ),
+          ],
         ),
       ),
     );
