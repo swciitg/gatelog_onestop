@@ -166,7 +166,7 @@ class _ScanQrPageState extends State<ScanQrPage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Image.asset(
-                'assets/images/logo.png',
+                'packages/gate_log/assets/images/logo.png',
                 width: MediaQuery.of(context).size.width * 0.8,
               ),
             ),
