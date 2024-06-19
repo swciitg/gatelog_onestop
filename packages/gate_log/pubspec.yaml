@@ -21,7 +21,6 @@ dependencies:
     git:
       url: https://github.com/swciitg/onestop_kit.git
   timeago: ^3.6.1
-  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:

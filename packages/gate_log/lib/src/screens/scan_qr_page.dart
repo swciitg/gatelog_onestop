@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gate_log/src/globals/endpoints.dart';
 import 'package:gate_log/src/globals/my_fonts.dart';
 import 'package:gate_log/src/models/check_out_qr_data.dart';
@@ -161,8 +160,8 @@ class _ScanQrPageState extends State<ScanQrPage> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
-              child: SvgPicture.asset(
-                'assets/images/swc_ec_logo.svg',
+              child: Image.asset(
+                'assets/images/swc_ec_logo.png',
                 package: 'gate_log',
                 width: MediaQuery.of(context).size.width * 0.8,
               ),
