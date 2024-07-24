@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gate_log/src/globals/my_fonts.dart';
 import 'package:gate_log/src/models/entry_details.dart';
 import 'package:gate_log/src/screens/check_out_page.dart';
 import 'package:gate_log/src/services/api.dart';
 import 'package:gate_log/src/stores/login_store.dart';
-import 'package:gate_log/src/widgets/guest_restrict.dart';
 import 'package:gate_log/src/widgets/home/entry_details_tile.dart';
 import 'package:gate_log/src/widgets/shimmers/list_shimmer.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -76,16 +74,17 @@ class _HomePageState extends State<HomePage> {
                   isFirst: index == 0,
                 ),
                 firstPageErrorIndicatorBuilder: (context) {
-                  print(_entryController.error);
-                  return Column(children: [
-                    ErrorReloadScreen(reloadCallback: _entryController.refresh),
-                  ]);
+                  return ErrorReloadScreen(
+                      reloadCallback: _entryController.refresh);
                 },
                 noItemsFoundIndicatorBuilder: (context) =>
                     const PaginationText(text: "No Entries found"),
                 newPageErrorIndicatorBuilder: (context) => Column(children: [
-                  ErrorReloadButton(
-                    reloadCallback: _entryController.retryLastFailedRequest,
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: ErrorReloadButton(
+                      reloadCallback: _entryController.retryLastFailedRequest,
+                    ),
                   )
                 ]),
                 newPageProgressIndicatorBuilder: (context) => const Padding(
@@ -129,7 +128,7 @@ class PaginationText extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Text(
           text,
-          style: MyFonts.w400.setColor(OneStopColors.kWhite),
+          style: OnestopFonts.w400.setColor(OneStopColors.kWhite),
         ),
       ),
     );

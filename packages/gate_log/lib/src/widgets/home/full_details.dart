@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gate_log/src/globals/my_fonts.dart';
 import 'package:gate_log/src/models/entry_details.dart';
 import 'package:gate_log/src/widgets/home/line_painter.dart';
 import 'package:intl/intl.dart';
@@ -27,11 +26,11 @@ class _FullDetailsState extends State<FullDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Destination",
-                    style: MyFonts.w500
+                    style: OnestopFonts.w500
                         .setColor(OneStopColors.onSecondaryColor2)
                         .size(12)),
                 Text(widget.details.destination,
-                    style: MyFonts.w600
+                    style: OnestopFonts.w600
                         .setColor(OneStopColors.cardFontColor2)
                         .size(13))
               ],
@@ -42,8 +41,9 @@ class _FullDetailsState extends State<FullDetails> {
                   color: OneStopColors.errorRed.withAlpha(25),
                   borderRadius: BorderRadius.circular(8)),
               child: Text("Closed",
-                  style:
-                      MyFonts.w500.setColor(OneStopColors.errorRed).size(12)),
+                  style: OnestopFonts.w500
+                      .setColor(OneStopColors.errorRed)
+                      .size(12)),
             )
           ],
         ),
@@ -56,25 +56,25 @@ class _FullDetailsState extends State<FullDetails> {
                 children: [
                   Text(
                     "Check-Out Gate",
-                    style: MyFonts.w500
+                    style: OnestopFonts.w500
                         .setColor(OneStopColors.onSecondaryColor2)
                         .size(10),
                   ),
                   Text(widget.details.checkOutGate,
-                      style: MyFonts.w500
+                      style: OnestopFonts.w500
                           .setColor(OneStopColors.cardFontColor2)
                           .size(12)),
                   const SizedBox(height: 7),
                   Text(
                     "Check-Out Date & Time",
-                    style: MyFonts.w500
+                    style: OnestopFonts.w500
                         .setColor(OneStopColors.onSecondaryColor2)
                         .size(10),
                   ),
                   Text(
                     DateFormat('MMM dd, h:mm a')
                         .format(widget.details.checkOutTime.toLocal()),
-                    style: MyFonts.w500
+                    style: OnestopFonts.w500
                         .setColor(OneStopColors.cardFontColor2)
                         .size(12),
                   ),
@@ -98,25 +98,25 @@ class _FullDetailsState extends State<FullDetails> {
                   children: [
                     Text(
                       "Check-In Gate",
-                      style: MyFonts.w500
+                      style: OnestopFonts.w500
                           .setColor(OneStopColors.onSecondaryColor2)
                           .size(10),
                     ),
                     Text(widget.details.checkInGate!,
-                        style: MyFonts.w500
+                        style: OnestopFonts.w500
                             .setColor(OneStopColors.cardFontColor2)
                             .size(12)),
                     const SizedBox(height: 7),
                     Text(
                       "Check-In Date & Time",
-                      style: MyFonts.w500
+                      style: OnestopFonts.w500
                           .setColor(OneStopColors.onSecondaryColor2)
                           .size(10),
                     ),
                     Text(
                         DateFormat('MMM dd, h:mm a')
                             .format(widget.details.checkOutTime.toLocal()),
-                        style: MyFonts.w500
+                        style: OnestopFonts.w500
                             .setColor(OneStopColors.cardFontColor2)
                             .size(12)),
                   ],

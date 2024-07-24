@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gate_log/src/globals/my_fonts.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class CustomDropDown extends StatelessWidget {
@@ -43,14 +42,14 @@ class CustomDropDown extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: label,
-                      style: MyFonts.w500
+                      style: OnestopFonts.w500
                           .size(14)
                           .setColor(OneStopColors.bottomNavFontColor),
                     ),
                     isNecessary!
                         ? TextSpan(
                             text: ' * ',
-                            style: MyFonts.w500
+                            style: OnestopFonts.w500
                                 .size(16)
                                 .setColor(OneStopColors.errorRed),
                           )
@@ -59,11 +58,13 @@ class CustomDropDown extends StatelessWidget {
                 ),
               )
             : null,
-        labelStyle:
-            MyFonts.w500.size(14).setColor(OneStopColors.bottomNavFontColor),
-        hintStyle:
-            MyFonts.w500.size(14).setColor(OneStopColors.bottomNavFontColor),
-        errorStyle: MyFonts.w500,
+        labelStyle: OnestopFonts.w500
+            .size(14)
+            .setColor(OneStopColors.bottomNavFontColor),
+        hintStyle: OnestopFonts.w500
+            .size(14)
+            .setColor(OneStopColors.bottomNavFontColor),
+        errorStyle: OnestopFonts.w500,
         contentPadding:
             const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         focusedBorder: OutlineInputBorder(
@@ -105,7 +106,7 @@ class CustomDropDown extends StatelessWidget {
             size: 28,
           ),
       elevation: 16,
-      style: MyFonts.w500.size(14).setColor(OneStopColors.kWhite),
+      style: OnestopFonts.w500.size(14).setColor(OneStopColors.kWhite),
       onChanged: (String? value) {
         if (index != null) {
           onChanged!(value, index);

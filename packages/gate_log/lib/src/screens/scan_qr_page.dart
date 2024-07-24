@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:gate_log/src/globals/endpoints.dart';
-import 'package:gate_log/src/globals/my_fonts.dart';
 import 'package:gate_log/src/models/check_out_qr_data.dart';
 import 'package:gate_log/src/models/qr_model.dart';
 import 'package:gate_log/src/screens/home_page.dart';
@@ -142,13 +141,13 @@ class _ScanQrPageState extends State<ScanQrPage> {
                           text: TextSpan(children: [
                             TextSpan(
                               text: 'Destination: ',
-                              style: MyFonts.w500
+                              style: OnestopFonts.w500
                                   .setColor(OneStopColors.cardFontColor2)
                                   .size(18),
                             ),
                             TextSpan(
                               text: widget.destination,
-                              style: MyFonts.w500
+                              style: OnestopFonts.w500
                                   .setColor(OneStopColors.primaryColor)
                                   .size(18),
                             ),

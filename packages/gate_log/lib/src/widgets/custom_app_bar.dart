@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gate_log/src/globals/my_fonts.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -33,7 +32,7 @@ class CustomAppBar extends StatelessWidget {
       title: Text(
         title,
         textAlign: TextAlign.left,
-        style: MyFonts.w500.size(23).setColor(OneStopColors.kWhite),
+        style: OnestopFonts.w500.size(23).setColor(OneStopColors.kWhite),
       ),
     );
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gate_log/src/globals/my_fonts.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class CustomTextField extends StatefulWidget {
@@ -52,14 +51,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
         return null;
       }
       return Text("$currentLength/$maxLength",
-          style: MyFonts.w500.size(12).setColor(OneStopColors.kWhite));
+          style: OnestopFonts.w500.size(12).setColor(OneStopColors.kWhite));
     }
 
     return TextFormField(
       inputFormatters: widget.inputFormatters,
       enabled: widget.isEnabled ?? true,
       readOnly: widget.onTap != null,
-      style: MyFonts.w500.size(14).copyWith(color: Colors.white),
+      style: OnestopFonts.w500.size(14).copyWith(color: Colors.white),
       validator: widget.validator,
       controller: widget.controller,
       focusNode: widget.focusNode,
@@ -72,7 +71,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       maxLength: widget.maxLength,
       maxLines: widget.maxLines,
       decoration: InputDecoration(
-        errorStyle: MyFonts.w500,
+        errorStyle: OnestopFonts.w500,
         hintText: widget.hintText,
         label: widget.hintText == null
             ? RichText(
@@ -80,14 +79,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   children: [
                     TextSpan(
                       text: widget.label,
-                      style: MyFonts.w500
+                      style: OnestopFonts.w500
                           .size(14)
                           .setColor(OneStopColors.cardFontColor2),
                     ),
                     if (widget.isNecessary)
                       TextSpan(
                         text: ' * ',
-                        style: MyFonts.w500
+                        style: OnestopFonts.w500
                             .size(16)
                             .setColor(OneStopColors.errorRed),
                       ),
@@ -96,8 +95,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
               )
             : null,
         labelStyle:
-            MyFonts.w500.size(14).setColor(OneStopColors.cardFontColor2),
-        hintStyle: MyFonts.w500.size(14).setColor(OneStopColors.cardFontColor2),
+            OnestopFonts.w500.size(14).setColor(OneStopColors.cardFontColor2),
+        hintStyle:
+            OnestopFonts.w500.size(14).setColor(OneStopColors.cardFontColor2),
         contentPadding:
             const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
         focusedBorder: const OutlineInputBorder(

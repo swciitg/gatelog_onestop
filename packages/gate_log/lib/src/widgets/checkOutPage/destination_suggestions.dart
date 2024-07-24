@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gate_log/src/globals/my_fonts.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class DestinationSuggestions extends StatelessWidget {
@@ -23,7 +22,9 @@ class DestinationSuggestions extends StatelessWidget {
         children: [
           Text(
             "Destination: ",
-            style: MyFonts.w500.size(14).setColor(OneStopColors.cardFontColor2),
+            style: OnestopFonts.w500
+                .size(14)
+                .setColor(OneStopColors.cardFontColor2),
           ),
           const SizedBox(width: 24),
           Expanded(
@@ -63,8 +64,8 @@ class DestinationSuggestions extends StatelessWidget {
       child: Text(
         destination,
         style: selected
-            ? MyFonts.w500.size(14)
-            : MyFonts.w500.size(14).setColor(OneStopColors.primaryColor),
+            ? OnestopFonts.w500.size(14)
+            : OnestopFonts.w500.size(14).setColor(OneStopColors.primaryColor),
       ),
     );
   }
