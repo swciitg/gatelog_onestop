@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gate_log/src/models/entry_details.dart';
 import 'package:gate_log/src/screens/check_out_page.dart';
 import 'package:gate_log/src/services/api.dart';
-import 'package:gate_log/src/stores/login_store.dart';
+import 'package:gate_log/src/services/shared_prefs.dart';
 import 'package:gate_log/src/widgets/home/entry_details_tile.dart';
 import 'package:gate_log/src/widgets/shimmers/list_shimmer.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -19,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   final int pageSize = 10;
   final PagingController<int, EntryDetails> _entryController =
       PagingController(firstPageKey: 1, invisibleItemsThreshold: 1);
+  bool isGuest = true;
 
   Future<void> _fetchEntries(int pageKey) async {
     try {
@@ -35,9 +36,17 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void setIsGuest() async {
+    final isG = await SharedPrefs.isGuestUser();
+    setState(() {
+      isGuest = isG;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    setIsGuest();
     _entryController.addPageRequestListener(_fetchEntries);
   }
 
@@ -64,7 +73,7 @@ class _HomePageState extends State<HomePage> {
             title: 'GateLog',
           )),
       backgroundColor: OneStopColors.backgroundColor,
-      body: LoginStore().isGuestUser
+      body: isGuest
           ? const GuestRestrictAccess()
           : PagedListView<int, EntryDetails>(
               pagingController: _entryController,

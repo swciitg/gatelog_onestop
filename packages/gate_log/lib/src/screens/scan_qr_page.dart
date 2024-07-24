@@ -5,6 +5,7 @@ import 'package:gate_log/src/globals/endpoints.dart';
 import 'package:gate_log/src/models/check_out_qr_data.dart';
 import 'package:gate_log/src/models/qr_model.dart';
 import 'package:gate_log/src/screens/home_page.dart';
+import 'package:gate_log/src/utility/disable_screenshots.dart';
 import 'package:gate_log/src/utility/enums.dart';
 import 'package:gate_log/src/widgets/custom_app_bar.dart';
 import 'package:gate_log/src/widgets/qrScreen/qr_image.dart';
@@ -83,12 +84,14 @@ class _ScanQrPageState extends State<ScanQrPage> {
   @override
   void dispose() {
     super.dispose();
+    disableScreenshots(false);
     channel.sink.close();
   }
 
   @override
   void initState() {
     initWebSocket();
+    disableScreenshots(true);
     super.initState();
   }
 
