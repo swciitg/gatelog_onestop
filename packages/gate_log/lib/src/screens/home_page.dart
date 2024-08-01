@@ -60,18 +60,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: OneStopColors.backgroundColor,
-          centerTitle: true,
-          leadingWidth: 100,
-          scrolledUnderElevation: 0,
-          leading: OneStopBackButton(
-            onTap: () {
-              Navigator.of(context, rootNavigator: true).pop();
-            },
-          ),
-          title: AppBarTitle(
-            title: 'GateLog',
-          )),
+        backgroundColor: OneStopColors.backgroundColor,
+        centerTitle: true,
+        leadingWidth: 100,
+        scrolledUnderElevation: 0,
+        leading: OneStopBackButton(
+          onTap: () {
+            Navigator.of(context, rootNavigator: true).pop();
+          },
+        ),
+        title: AppBarTitle(title: 'GateLog'),
+      ),
       backgroundColor: OneStopColors.backgroundColor,
       body: isGuest
           ? const GuestRestrictAccess()
@@ -81,10 +80,10 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, entry, index) => EntryDetailsTile(
                   entry: entry,
                   isFirst: index == 0,
+                  onCheckIn: () => _entryController.refresh(),
                 ),
                 firstPageErrorIndicatorBuilder: (context) {
-                  return ErrorReloadScreen(
-                      reloadCallback: _entryController.refresh);
+                  return ErrorReloadScreen(reloadCallback: _entryController.refresh);
                 },
                 noItemsFoundIndicatorBuilder: (context) =>
                     const PaginationText(text: "No Entries found"),

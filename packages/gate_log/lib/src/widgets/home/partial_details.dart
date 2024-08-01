@@ -6,18 +6,18 @@ import 'package:gate_log/src/widgets/home/line_painter.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
-class PartialDetails extends StatefulWidget {
+class PartialDetails extends StatelessWidget {
   final EntryDetails details;
   final bool isFirst;
+  final VoidCallback onCheckIn;
 
-  const PartialDetails(
-      {required this.isFirst, required this.details, super.key});
+  const PartialDetails({
+    super.key,
+    required this.isFirst,
+    required this.details,
+    required this.onCheckIn,
+  });
 
-  @override
-  State<PartialDetails> createState() => _PartialDetailsState();
-}
-
-class _PartialDetailsState extends State<PartialDetails> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,26 +30,21 @@ class _PartialDetailsState extends State<PartialDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Destination",
-                    style: OnestopFonts.w500
-                        .setColor(OneStopColors.onSecondaryColor2)
-                        .size(12)),
-                Text(widget.details.destination,
-                    style: OnestopFonts.w600
-                        .setColor(OneStopColors.cardFontColor2)
-                        .size(13))
+                    style: OnestopFonts.w500.setColor(OneStopColors.onSecondaryColor2).size(12)),
+                Text(details.destination,
+                    style: OnestopFonts.w600.setColor(OneStopColors.cardFontColor2).size(13))
               ],
             ),
-            widget.isFirst
+            isFirst
                 ? GestureDetector(
                     onTap: () async {
                       await Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => ScanQrPage(
-                          qrData:
-                              CheckInQrData.fromJson(widget.details.toJson()),
-                          destination: widget.details.destination,
+                          qrData: CheckInQrData.fromJson(details.toJson()),
+                          destination: details.destination,
                         ),
                       ));
-                      setState(() {});
+                      onCheckIn();
                     },
                     child: Container(
                       height: 23,
@@ -65,15 +60,12 @@ class _PartialDetailsState extends State<PartialDetails> {
                     ),
                   )
                 : Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
                         color: OneStopColors.greenTextColor.withAlpha(30),
                         borderRadius: BorderRadius.circular(8)),
                     child: Text("Open",
-                        style: OnestopFonts.w500
-                            .setColor(OneStopColors.greenTextColor)
-                            .size(12)),
+                        style: OnestopFonts.w500.setColor(OneStopColors.greenTextColor).size(12)),
                   )
           ],
         ),
@@ -86,14 +78,10 @@ class _PartialDetailsState extends State<PartialDetails> {
                 children: [
                   Text(
                     "Check-Out Gate",
-                    style: OnestopFonts.w500
-                        .setColor(OneStopColors.onSecondaryColor2)
-                        .size(10),
+                    style: OnestopFonts.w500.setColor(OneStopColors.onSecondaryColor2).size(10),
                   ),
-                  Text(widget.details.checkOutGate,
-                      style: OnestopFonts.w500
-                          .setColor(OneStopColors.cardFontColor2)
-                          .size(12)),
+                  Text(details.checkOutGate,
+                      style: OnestopFonts.w500.setColor(OneStopColors.cardFontColor2).size(12)),
                 ],
               ),
             ),
@@ -114,16 +102,10 @@ class _PartialDetailsState extends State<PartialDetails> {
                   children: [
                     Text(
                       "Check-Out Date & Time",
-                      style: OnestopFonts.w500
-                          .setColor(OneStopColors.onSecondaryColor2)
-                          .size(10),
+                      style: OnestopFonts.w500.setColor(OneStopColors.onSecondaryColor2).size(10),
                     ),
-                    Text(
-                        DateFormat('MMM dd, h:mm a')
-                            .format(widget.details.checkOutTime.toLocal()),
-                        style: OnestopFonts.w500
-                            .setColor(OneStopColors.cardFontColor2)
-                            .size(12)),
+                    Text(DateFormat('MMM dd, h:mm a').format(details.checkOutTime.toLocal()),
+                        style: OnestopFonts.w500.setColor(OneStopColors.cardFontColor2).size(12)),
                   ],
                 ),
               ),
