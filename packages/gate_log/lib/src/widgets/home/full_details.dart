@@ -6,6 +6,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 
 class FullDetails extends StatelessWidget {
   final EntryDetails details;
+
   const FullDetails({required this.details, super.key});
 
   @override
@@ -20,9 +21,13 @@ class FullDetails extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Destination",
-                    style: OnestopFonts.w500.setColor(OneStopColors.onSecondaryColor2).size(12)),
+                    style: OnestopFonts.w500
+                        .setColor(OneStopColors.onSecondaryColor2)
+                        .size(12)),
                 Text(details.destination,
-                    style: OnestopFonts.w600.setColor(OneStopColors.cardFontColor2).size(13))
+                    style: OnestopFonts.w600
+                        .setColor(OneStopColors.cardFontColor2)
+                        .size(13))
               ],
             ),
             Container(
@@ -31,7 +36,9 @@ class FullDetails extends StatelessWidget {
                   color: OneStopColors.errorRed.withAlpha(25),
                   borderRadius: BorderRadius.circular(8)),
               child: Text("Closed",
-                  style: OnestopFonts.w500.setColor(OneStopColors.errorRed).size(12)),
+                  style: OnestopFonts.w500
+                      .setColor(OneStopColors.errorRed)
+                      .size(12)),
             )
           ],
         ),
@@ -44,18 +51,27 @@ class FullDetails extends StatelessWidget {
                 children: [
                   Text(
                     "Check-Out Gate",
-                    style: OnestopFonts.w500.setColor(OneStopColors.onSecondaryColor2).size(10),
+                    style: OnestopFonts.w500
+                        .setColor(OneStopColors.onSecondaryColor2)
+                        .size(10),
                   ),
                   Text(details.checkOutGate,
-                      style: OnestopFonts.w500.setColor(OneStopColors.cardFontColor2).size(12)),
+                      style: OnestopFonts.w500
+                          .setColor(OneStopColors.cardFontColor2)
+                          .size(12)),
                   const SizedBox(height: 7),
                   Text(
                     "Check-Out Date & Time",
-                    style: OnestopFonts.w500.setColor(OneStopColors.onSecondaryColor2).size(10),
+                    style: OnestopFonts.w500
+                        .setColor(OneStopColors.onSecondaryColor2)
+                        .size(10),
                   ),
                   Text(
-                    DateFormat('MMM dd, h:mm a').format(details.checkOutTime.toLocal()),
-                    style: OnestopFonts.w500.setColor(OneStopColors.cardFontColor2).size(12),
+                    DateFormat('MMM dd, h:mm a')
+                        .format(details.checkOutTime.toLocal()),
+                    style: OnestopFonts.w500
+                        .setColor(OneStopColors.cardFontColor2)
+                        .size(12),
                   ),
                 ],
               ),
@@ -77,17 +93,29 @@ class FullDetails extends StatelessWidget {
                   children: [
                     Text(
                       "Check-In Gate",
-                      style: OnestopFonts.w500.setColor(OneStopColors.onSecondaryColor2).size(10),
+                      style: OnestopFonts.w500
+                          .setColor(OneStopColors.onSecondaryColor2)
+                          .size(10),
                     ),
                     Text(details.checkInGate ?? 'N/A',
-                        style: OnestopFonts.w500.setColor(OneStopColors.cardFontColor2).size(12)),
+                        style: OnestopFonts.w500
+                            .setColor(OneStopColors.cardFontColor2)
+                            .size(12)),
                     const SizedBox(height: 7),
                     Text(
                       "Check-In Date & Time",
-                      style: OnestopFonts.w500.setColor(OneStopColors.onSecondaryColor2).size(10),
+                      style: OnestopFonts.w500
+                          .setColor(OneStopColors.onSecondaryColor2)
+                          .size(10),
                     ),
-                    Text(DateFormat('MMM dd, h:mm a').format(details.checkOutTime.toLocal()),
-                        style: OnestopFonts.w500.setColor(OneStopColors.cardFontColor2).size(12)),
+                    Text(
+                        details.checkInTime == null
+                            ? 'N/A'
+                            : DateFormat('MMM dd, h:mm a')
+                                .format(details.checkInTime!.toLocal()),
+                        style: OnestopFonts.w500
+                            .setColor(OneStopColors.cardFontColor2)
+                            .size(12)),
                   ],
                 ),
               ),
