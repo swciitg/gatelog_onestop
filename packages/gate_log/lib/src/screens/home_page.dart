@@ -3,6 +3,7 @@ import 'package:gate_log/src/models/entry_details.dart';
 import 'package:gate_log/src/screens/check_out_page.dart';
 import 'package:gate_log/src/services/api.dart';
 import 'package:gate_log/src/services/shared_prefs.dart';
+import 'package:gate_log/src/widgets/custom_loader.dart';
 import 'package:gate_log/src/widgets/home/entry_details_tile.dart';
 import 'package:gate_log/src/widgets/shimmers/list_shimmer.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -82,43 +83,43 @@ class _HomePageState extends State<HomePage> {
                   isFirst: index == 0,
                   onCheckIn: () => _entryController.refresh(),
                 ),
-                firstPageErrorIndicatorBuilder: (context) {
-                  return ErrorReloadScreen(reloadCallback: _entryController.refresh);
-                },
+                firstPageErrorIndicatorBuilder: (context) =>
+                    ErrorReloadScreen(reloadCallback: _entryController.refresh),
                 noItemsFoundIndicatorBuilder: (context) =>
                     const PaginationText(text: "No Entries found"),
                 newPageErrorIndicatorBuilder: (context) => Column(children: [
                   Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: EdgeInsets.only(top: 20, bottom: 200),
                     child: ErrorReloadButton(
                       reloadCallback: _entryController.retryLastFailedRequest,
                     ),
                   )
                 ]),
                 newPageProgressIndicatorBuilder: (context) => const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Center(child: CircularProgressIndicator()),
+                    padding: EdgeInsets.only(top: 10, bottom: 200),
+                    child: Center(child: CustomLoader())),
+                firstPageProgressIndicatorBuilder: (context) =>
+                    ListShimmer(count: 10, height: 100),
+                noMoreItemsIndicatorBuilder: (context) => Padding(
+                  padding: const EdgeInsets.only(bottom: 200),
+                  child: const PaginationText(text: "You've reached the end"),
                 ),
-                firstPageProgressIndicatorBuilder: (context) => ListShimmer(
-                  count: 10,
-                  height: 100,
-                ),
-                noMoreItemsIndicatorBuilder: (context) =>
-                    const PaginationText(text: "You've reached the end"),
               ),
             ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton.extended(
         backgroundColor: OneStopColors.primaryColor,
         onPressed: () async {
           await Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => CheckOutPage(),
           ));
-          setState(() {});
+          _entryController.refresh();
         },
-        child: const Icon(
+        icon: const Icon(
           Icons.add,
           color: OneStopColors.kBlack,
         ),
+        label: Text('Check-Out'),
       ),
     );
   }

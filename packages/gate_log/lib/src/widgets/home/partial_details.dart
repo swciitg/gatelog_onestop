@@ -30,9 +30,13 @@ class PartialDetails extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Destination",
-                    style: OnestopFonts.w500.setColor(OneStopColors.onSecondaryColor2).size(12)),
+                    style: OnestopFonts.w500
+                        .setColor(OneStopColors.onSecondaryColor2)
+                        .size(12)),
                 Text(details.destination,
-                    style: OnestopFonts.w600.setColor(OneStopColors.cardFontColor2).size(13))
+                    style: OnestopFonts.w600
+                        .setColor(OneStopColors.cardFontColor2)
+                        .size(13))
               ],
             ),
             isFirst
@@ -47,25 +51,28 @@ class PartialDetails extends StatelessWidget {
                       onCheckIn();
                     },
                     child: Container(
-                      height: 23,
-                      width: 45,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                          color: OneStopColors.primaryColor,
+                          color: OneStopColors.kYellow.withAlpha(30),
                           borderRadius: BorderRadius.circular(8)),
                       child: Center(
-                          child: Text("QR",
+                          child: Text("Check-In",
                               style: OnestopFonts.w500
-                                  .setColor(OneStopColors.backgroundColor)
-                                  .size(14))),
+                                  .setColor(OneStopColors.kYellow)
+                                  .size(12))),
                     ),
                   )
                 : Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
                         color: OneStopColors.greenTextColor.withAlpha(30),
                         borderRadius: BorderRadius.circular(8)),
                     child: Text("Open",
-                        style: OnestopFonts.w500.setColor(OneStopColors.greenTextColor).size(12)),
+                        style: OnestopFonts.w500
+                            .setColor(OneStopColors.greenTextColor)
+                            .size(12)),
                   )
           ],
         ),
@@ -78,10 +85,14 @@ class PartialDetails extends StatelessWidget {
                 children: [
                   Text(
                     "Check-Out Gate",
-                    style: OnestopFonts.w500.setColor(OneStopColors.onSecondaryColor2).size(10),
+                    style: OnestopFonts.w500
+                        .setColor(OneStopColors.onSecondaryColor2)
+                        .size(10),
                   ),
                   Text(details.checkOutGate,
-                      style: OnestopFonts.w500.setColor(OneStopColors.cardFontColor2).size(12)),
+                      style: OnestopFonts.w500
+                          .setColor(OneStopColors.cardFontColor2)
+                          .size(12)),
                 ],
               ),
             ),
@@ -102,10 +113,16 @@ class PartialDetails extends StatelessWidget {
                   children: [
                     Text(
                       "Check-Out Date & Time",
-                      style: OnestopFonts.w500.setColor(OneStopColors.onSecondaryColor2).size(10),
+                      style: OnestopFonts.w500
+                          .setColor(OneStopColors.onSecondaryColor2)
+                          .size(10),
                     ),
-                    Text(DateFormat('MMM dd, h:mm a').format(details.checkOutTime.toLocal()),
-                        style: OnestopFonts.w500.setColor(OneStopColors.cardFontColor2).size(12)),
+                    Text(
+                        DateFormat('MMM dd, h:mm a')
+                            .format(details.checkOutTime.toLocal()),
+                        style: OnestopFonts.w500
+                            .setColor(OneStopColors.cardFontColor2)
+                            .size(12)),
                   ],
                 ),
               ),

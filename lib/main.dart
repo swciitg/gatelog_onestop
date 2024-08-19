@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
                       }));
 
                   await prefs.setString("accessToken",
-                      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2NmEyM2VkYWFlYmJiNGY4YWU1ZGI5ZmYiLCJpYXQiOjE3MjM3OTY3NzAsImV4cCI6MTcyNDY2MDc3MH0.JcMBJk5vdIST8pdkUgAoVvEL3Vf3_TBXtai1_idJang");
+                      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2NjRmNzhmM2FhZTg2NDIyNzU0YjE2ZjMiLCJpYXQiOjE3MjQwNTc5MDEsImV4cCI6MTcyNDkyMTkwMX0.XMfpKTpTYYE2ozfIvTSWL1dM_CGlTh1H_A6u4C37rD0");
                   await prefs.setBool('isGuest', false);
 
                   nav.push(MaterialPageRoute(

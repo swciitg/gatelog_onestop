@@ -11,7 +11,7 @@ class APIService extends OneStopApi {
         );
 
   Future<String> getUserId() async {
-    final res = await onestopDio.get("/user/getUserId");
+    final res = await onestopDio.get('/user/getUserid');
     return res.data['userId'];
   }
 

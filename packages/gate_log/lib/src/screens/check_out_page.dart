@@ -45,6 +45,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
   Future<void> getUserId() async {
     userId = await APIService().getUserId();
+    print(userId);
   }
 
   void resetForm() async {
