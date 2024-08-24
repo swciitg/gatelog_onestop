@@ -27,6 +27,7 @@ class ScanQrPage extends StatefulWidget {
 
 class _ScanQrPageState extends State<ScanQrPage> {
   late IOWebSocketChannel channel;
+  var showQR = true;
 
   void initWebSocket() async {
     channel = IOWebSocketChannel.connect(
@@ -46,16 +47,19 @@ class _ScanQrPageState extends State<ScanQrPage> {
         final eventMap = jsonDecode(event);
         print(eventMap);
         final eventName = eventMap['eventName'];
-
         if (eventName == SocketEvents.CONNECTION.name) {
           setState(() {
             widget.qrData.setConnectionId(eventMap['connectionId']);
           });
+        } else if (eventName == SocketEvents.REQUEST_RECEIVED) {
+          setState(() {
+            showQR = false;
+          });
         } else if (eventName == SocketEvents.TIMEOUT.name) {
           await channel.sink.close();
-
           setState(() {
             initWebSocket();
+            showQR = true;
           });
         } else if (eventName == SocketEvents.ENTRY_ADDED.name) {
           nav.pop();
@@ -125,7 +129,7 @@ class _ScanQrPageState extends State<ScanQrPage> {
                         SizedBox(
                           width: width * 0.7,
                           height: width * 0.7,
-                          child: json['connectionId'] == null
+                          child: json['connectionId'] == null || !showQR
                               ? Center(
                                   child: CircularProgressIndicator(
                                     color: OneStopColors.primaryColor,
@@ -140,15 +144,13 @@ class _ScanQrPageState extends State<ScanQrPage> {
                           text: TextSpan(children: [
                             TextSpan(
                               text: 'Destination: ',
-                              style: OnestopFonts.w500
-                                  .setColor(OneStopColors.cardFontColor2)
-                                  .size(18),
+                              style:
+                                  OnestopFonts.w500.setColor(OneStopColors.cardFontColor2).size(18),
                             ),
                             TextSpan(
                               text: widget.destination,
-                              style: OnestopFonts.w500
-                                  .setColor(OneStopColors.primaryColor)
-                                  .size(18),
+                              style:
+                                  OnestopFonts.w500.setColor(OneStopColors.primaryColor).size(18),
                             ),
                           ]),
                         ),
