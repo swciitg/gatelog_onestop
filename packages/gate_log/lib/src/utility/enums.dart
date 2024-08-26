@@ -2,6 +2,7 @@ enum SocketEvents {
   CONNECTION,
   TIMEOUT,
   ERROR,
+  REQUEST_RECEIVED,
   ENTRY_ADDED,
   ENTRY_CLOSED,
 }

@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
         scrolledUnderElevation: 0,
         leading: OneStopBackButton(
           onTap: () {
-            Navigator.of(context, rootNavigator: true).pop();
+            Navigator.of(context).pop();
           },
         ),
         title: AppBarTitle(title: 'GateLog'),
@@ -98,8 +98,7 @@ class _HomePageState extends State<HomePage> {
                 newPageProgressIndicatorBuilder: (context) => const Padding(
                     padding: EdgeInsets.only(top: 10, bottom: 200),
                     child: Center(child: CustomLoader())),
-                firstPageProgressIndicatorBuilder: (context) =>
-                    ListShimmer(count: 10, height: 100),
+                firstPageProgressIndicatorBuilder: (context) => ListShimmer(count: 10, height: 100),
                 noMoreItemsIndicatorBuilder: (context) => Padding(
                   padding: const EdgeInsets.only(bottom: 200),
                   child: const PaginationText(text: "You've reached the end"),
