@@ -15,7 +15,7 @@ dependencies:
   qr_flutter: ^4.1.0
   shared_preferences: ^2.2.2
   shimmer: ^2.0.0
-  web_socket_channel: ^2.4.4
+  web_socket_channel: ^3.0.1
   infinite_scroll_pagination: ^4.0.0
   onestop_kit:
     git:
