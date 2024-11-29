@@ -6,8 +6,6 @@ GateLog is a Flutter package developed for the OneStop App at IIT Guwahati. It f
 
 - **Digital Gate Logging**: Allows students to log their check-ins and check-outs at campus gates.
 - **Real-time Data**: Logs are instantly updated and can be tracked in real-time.
-- **Firebase Integration**: Uses Firestore for secure storage of logs and Firebase Authentication for user authentication.
-- **User Notifications**: Provides real-time notifications upon successful check-ins and check-outs.
 - **Increased Engagement**: GateLog has significantly boosted app usage with more active users.
 
 ## Tech Stack
