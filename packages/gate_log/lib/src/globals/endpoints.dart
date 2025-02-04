@@ -1,8 +1,10 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class Endpoints {
-  static const khokhaWebSocketUrl =
-      String.fromEnvironment('GATELOG-WEBSOCKET-URL');
-  static const gateLogServerUrl = String.fromEnvironment('GATELOG-SERVER-URL');
-  static const onestopSecurityKey = String.fromEnvironment('SECURITY-KEY');
+  static final khokhaWebSocketUrl = dotenv.env['GATELOG-WEBSOCKET-URL']!;
+  static final gateLogServerUrl = dotenv.env['GATELOG-SERVER-URL']!;
+  static final onestopSecurityKey = dotenv.env['SECURITY-KEY']!;
+
   static const onestopBaseUrl = String.fromEnvironment('SERVER-URL');
   static const String getAllLogs = '/history';
 
