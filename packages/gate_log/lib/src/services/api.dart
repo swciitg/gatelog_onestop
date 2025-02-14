@@ -1,6 +1,7 @@
 import 'package:gate_log/src/globals/endpoints.dart';
 import 'package:gate_log/src/models/entry_details.dart';
 import 'package:onestop_kit/onestop_kit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class APIService extends OneStopApi {
   APIService()
@@ -8,6 +9,12 @@ class APIService extends OneStopApi {
           onestopBaseUrl: Endpoints.onestopBaseUrl,
           serverBaseUrl: Endpoints.gateLogServerUrl,
           onestopSecurityKey: Endpoints.onestopSecurityKey,
+          onRefreshTokenExpired: () async {
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.clear();
+            // TODO: DO SOMETHING HERE
+            //showSnackBar("Your session has expired! Login again.");
+          },
         );
 
   Future<String> getUserId() async {
