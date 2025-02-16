@@ -54,12 +54,13 @@ class PartialDetails extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                          color: OneStopColors.kYellow.withAlpha(30),
-                          borderRadius: BorderRadius.circular(8)),
+                        color: OneStopColors.primaryColor,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       child: Center(
                           child: Text("Check-In",
                               style: OnestopFonts.w500
-                                  .setColor(OneStopColors.kYellow)
+                                  .setColor(OneStopColors.kBlack)
                                   .size(12))),
                     ),
                   )

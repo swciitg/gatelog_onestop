@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:gate_log/src/globals/endpoints.dart';
@@ -6,6 +7,7 @@ import 'package:gate_log/src/models/check_out_qr_data.dart';
 import 'package:gate_log/src/models/qr_model.dart';
 import 'package:gate_log/src/utility/disable_screenshots.dart';
 import 'package:gate_log/src/utility/enums.dart';
+import 'package:gate_log/src/utility/screen_brightness.dart';
 import 'package:gate_log/src/widgets/custom_app_bar.dart';
 import 'package:gate_log/src/widgets/qrScreen/qr_image.dart';
 import 'package:onestop_kit/onestop_kit.dart';
@@ -47,6 +49,7 @@ class _ScanQrPageState extends State<ScanQrPage> {
         final eventMap = jsonDecode(event);
         print(eventMap);
         final eventName = eventMap['eventName'];
+        log("EVENT: $eventName");
         if (eventName == SocketEvents.CONNECTION.name) {
           setState(() {
             widget.qrData.setConnectionId(eventMap['connectionId']);
@@ -85,6 +88,7 @@ class _ScanQrPageState extends State<ScanQrPage> {
   void dispose() {
     super.dispose();
     disableScreenshots(false);
+    resetApplicationBrightness();
     channel.sink.close();
   }
 
@@ -92,6 +96,7 @@ class _ScanQrPageState extends State<ScanQrPage> {
   void initState() {
     initWebSocket();
     disableScreenshots(true);
+    setApplicationBrightness(1);
     super.initState();
   }
 
@@ -144,13 +149,15 @@ class _ScanQrPageState extends State<ScanQrPage> {
                           text: TextSpan(children: [
                             TextSpan(
                               text: 'Destination: ',
-                              style:
-                                  OnestopFonts.w500.setColor(OneStopColors.cardFontColor2).size(18),
+                              style: OnestopFonts.w500
+                                  .setColor(OneStopColors.cardFontColor2)
+                                  .size(18),
                             ),
                             TextSpan(
                               text: widget.destination,
-                              style:
-                                  OnestopFonts.w500.setColor(OneStopColors.primaryColor).size(18),
+                              style: OnestopFonts.w500
+                                  .setColor(OneStopColors.primaryColor)
+                                  .size(18),
                             ),
                           ]),
                         ),

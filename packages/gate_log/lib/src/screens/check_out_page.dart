@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:gate_log/src/models/check_out_qr_data.dart';
 import 'package:gate_log/src/screens/scan_qr_page.dart';
 import 'package:gate_log/src/services/api.dart';
+import 'package:gate_log/src/utility/show_snackbar.dart';
 import 'package:gate_log/src/utility/validity.dart';
 import 'package:gate_log/src/widgets/checkOutPage/custom_text_field.dart';
 import 'package:gate_log/src/widgets/checkOutPage/destination_suggestions.dart';
@@ -29,6 +30,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
   final TextEditingController _hostelController = TextEditingController();
 
   var selectedDestination = "Khokha";
+  var loading = false;
   var userId = '';
   final destinationSuggestions = [
     "Khokha",
@@ -44,8 +46,19 @@ class _CheckOutPageState extends State<CheckOutPage> {
   }
 
   Future<void> getUserId() async {
-    userId = await APIService().getUserId();
-    print(userId);
+    setState(() {
+      loading = true;
+    });
+    try {
+      userId = await APIService().getUserId();
+      print(userId);
+    } catch (e) {
+      showSnackBar("Something went wrong!");
+    } finally {
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   void resetForm() async {
@@ -115,81 +128,90 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       key: _formKey,
                       child: Column(
                         children: [
-                          CustomTextField(
-                            label: 'Name',
-                            isNecessary: false,
-                            controller: _nameController,
-                            isEnabled: false,
-                          ),
-                          const SizedBox(height: 12),
-                          CustomTextField(
-                            label: 'Hostel',
-                            isNecessary: false,
-                            controller: _hostelController,
-                            isEnabled: false,
-                          ),
-                          const SizedBox(height: 12),
-                          CustomTextField(
-                            label: 'Outlook Email',
-                            validator: validateField,
-                            isNecessary: false,
-                            controller: _emailController,
-                            maxLines: 1,
-                            isEnabled: false,
-                          ),
-                          const SizedBox(height: 12),
-                          CustomTextField(
-                            label: 'Hostel room no',
-                            validator: validateField,
-                            isNecessary: false,
-                            controller: _roomNoController,
-                            maxLength: 5,
-                            maxLines: 1,
-                            counter: true,
-                            isEnabled: false,
-                          ),
-                          const SizedBox(height: 12),
-                          CustomTextField(
-                            label: 'Roll Number',
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Field cannot be empty';
-                              } else if (value.length != 9) {
-                                return 'Enter valid roll number';
-                              }
-                              return null;
-                            },
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            isNecessary: false,
-                            controller: _rollController,
-                            maxLength: 9,
-                            maxLines: 1,
-                            counter: true,
-                            isEnabled: false,
-                          ),
-                          const SizedBox(height: 12),
-                          CustomTextField(
-                            label: 'Phone Number',
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Field cannot be empty';
-                              } else if (value.length != 10) {
-                                return 'Enter valid 10 digit phone number';
-                              }
-                              return null;
-                            },
-                            isNecessary: false,
-                            controller: _phoneController,
-                            inputType: TextInputType.phone,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            maxLength: 10,
-                            maxLines: 1,
-                            counter: true,
-                            isEnabled: false,
+                          Opacity(
+                            opacity: 0.7,
+                            child: Column(
+                              children: [
+                                CustomTextField(
+                                  label: 'Name',
+                                  isNecessary: false,
+                                  controller: _nameController,
+                                  isEnabled: false,
+                                ),
+                                const SizedBox(height: 12),
+                                CustomTextField(
+                                  label: 'Roll Number',
+                                  validator: (String? value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Field cannot be empty';
+                                    } else if (value.length != 9) {
+                                      return 'Enter valid roll number';
+                                    }
+                                    return null;
+                                  },
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(9),
+                                  ],
+                                  isNecessary: false,
+                                  controller: _rollController,
+                                  maxLines: 1,
+                                  counter: false,
+                                  isEnabled: false,
+                                ),
+                                const SizedBox(height: 12),
+                                CustomTextField(
+                                  label: 'Hostel',
+                                  isNecessary: false,
+                                  controller: _hostelController,
+                                  isEnabled: false,
+                                ),
+                                const SizedBox(height: 12),
+                                CustomTextField(
+                                  label: 'Outlook Email',
+                                  validator: validateField,
+                                  isNecessary: false,
+                                  controller: _emailController,
+                                  maxLines: 1,
+                                  isEnabled: false,
+                                ),
+                                const SizedBox(height: 12),
+                                CustomTextField(
+                                  label: 'Hostel room no',
+                                  validator: validateField,
+                                  isNecessary: false,
+                                  controller: _roomNoController,
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(5),
+                                  ],
+                                  maxLines: 1,
+                                  counter: false,
+                                  isEnabled: false,
+                                ),
+                                const SizedBox(height: 12),
+                                CustomTextField(
+                                  label: 'Phone Number',
+                                  validator: (String? value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Field cannot be empty';
+                                    } else if (value.length != 10) {
+                                      return 'Enter valid 10 digit phone number';
+                                    }
+                                    return null;
+                                  },
+                                  isNecessary: false,
+                                  controller: _phoneController,
+                                  inputType: TextInputType.phone,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(10),
+                                  ],
+                                  maxLines: 1,
+                                  counter: false,
+                                  isEnabled: false,
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 12),
                           DestinationSuggestions(
@@ -220,7 +242,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 ),
               ),
               GestureDetector(
-                onTap: showQRImage,
+                onTap: loading ? null : showQRImage,
                 child: Container(
                   width: double.infinity,
                   height: 48,
@@ -229,10 +251,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
                     borderRadius: BorderRadius.circular(4),
                     color: OneStopColors.primaryColor,
                   ),
-                  child: const Text(
-                    'Generate QR',
-                    textAlign: TextAlign.center,
-                  ),
+                  child: loading
+                      ? CircularProgressIndicator(color: Colors.white)
+                      : const Text('Generate QR', textAlign: TextAlign.center),
                 ),
               ),
             ],

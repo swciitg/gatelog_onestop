@@ -1,3 +1,5 @@
+import 'dart:developer';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gate_log/src/models/entry_details.dart';
 import 'package:gate_log/src/screens/check_out_page.dart';
@@ -31,7 +33,10 @@ class _HomePageState extends State<HomePage> {
       } else {
         _entryController.appendPage(result, pageKey + 1);
       }
+    } on DioException catch (e) {
+      log("Error: ${e.response?.data}");
     } catch (e) {
+      log("Error: $e");
       _entryController.error = e;
     }
   }
@@ -83,7 +88,8 @@ class _HomePageState extends State<HomePage> {
                   onCheckIn: () => _entryController.refresh(),
                 ),
                 firstPageErrorIndicatorBuilder: (context) {
-                  return ErrorReloadScreen(reloadCallback: _entryController.refresh);
+                  return ErrorReloadScreen(
+                      reloadCallback: _entryController.refresh);
                 },
                 noItemsFoundIndicatorBuilder: (context) =>
                     const PaginationText(text: "No Entries found"),
@@ -113,7 +119,7 @@ class _HomePageState extends State<HomePage> {
           await Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => CheckOutPage(),
           ));
-          setState(() {});
+          _entryController.refresh();
         },
         child: const Icon(
           Icons.add,
