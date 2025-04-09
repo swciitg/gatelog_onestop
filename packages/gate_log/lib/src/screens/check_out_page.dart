@@ -28,6 +28,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
   final TextEditingController _roomNoController = TextEditingController();
   final TextEditingController _destinationController = TextEditingController();
   final TextEditingController _hostelController = TextEditingController();
+  final TextEditingController _cycleNoController = TextEditingController();
 
   var selectedDestination = "Khokha";
   var loading = false;
@@ -204,6 +205,18 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                   inputType: TextInputType.phone,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(10),
+                                  ],
+                                  maxLines: 1,
+                                  counter: false,
+                                  isEnabled: false,
+                                ),
+                                CustomTextField(
+                                  label: 'Cycle Registration No',
+                                  //validator: validateField,
+                                  isNecessary: false,
+                                  controller: _cycleNoController,
+                                  inputFormatters: [
                                     LengthLimitingTextInputFormatter(10),
                                   ],
                                   maxLines: 1,
