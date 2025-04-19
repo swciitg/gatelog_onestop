@@ -22,11 +22,21 @@ class _HomePageState extends State<HomePage> {
   final PagingController<int, EntryDetails> _entryController =
       PagingController(firstPageKey: 1, invisibleItemsThreshold: 1);
   bool isGuest = true;
+  bool hasUnclosedEntry = false;
 
   Future<void> _fetchEntries(int pageKey) async {
     try {
       final result = await APIService().getLogHistory(pageKey, pageSize);
       bool isLastPage = result.length < pageSize;
+
+      if (pageKey == 1 && result.isNotEmpty) {
+        var entry = result[0];
+        if (!entry.isClosed) {
+          setState(() {
+            hasUnclosedEntry = true;
+          });
+        }
+      }
 
       if (isLastPage) {
         _entryController.appendLastPage(result);
@@ -113,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                     const PaginationText(text: "You've reached the end"),
               ),
             ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: hasUnclosedEntry ? null : FloatingActionButton(
         backgroundColor: OneStopColors.primaryColor,
         onPressed: () async {
           await Navigator.of(context).push(MaterialPageRoute(
