@@ -29,6 +29,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
   final TextEditingController _destinationController = TextEditingController();
   final TextEditingController _hostelController = TextEditingController();
   final TextEditingController _cycleNoController = TextEditingController();
+  // var _cycleRegEnabled = false;
 
   var selectedDestination = "Khokha";
   var loading = false;
@@ -72,10 +73,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
     _roomNoController.text = user.roomNo.toString();
     _destinationController.text = "";
     _emailController.text = user.outlookEmail;
+    _cycleNoController.text = user.cycleReg ?? "";
+    // _cycleRegEnabled = _cycleNoController.text.isEmpty;
     print("User Hostel : ${user.hostel}");
-    _hostelController.text = Hostel.values
-        .firstWhere((element) => element.databaseString == user.hostel)
-        .displayString;
+    _hostelController.text =
+        Hostel.values.firstWhere((element) => element.databaseString == user.hostel).displayString;
     selectedDestination = destinationSuggestions.first;
     setState(() {});
   }
@@ -83,13 +85,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
   void showQRImage() async {
     final nav = Navigator.of(context);
     if (!_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please give all the inputs correctly')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Please give all the inputs correctly')));
       return;
     }
-    final destination = selectedDestination == "Other"
-        ? _destinationController.text
-        : selectedDestination;
+    final destination =
+        selectedDestination == "Other" ? _destinationController.text : selectedDestination;
     await getUserId();
     final mapData = {
       "destination": destination,
@@ -211,18 +212,18 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                   counter: false,
                                   isEnabled: false,
                                 ),
-                                CustomTextField(
-                                  label: 'Cycle Registration No',
-                                  //validator: validateField,
-                                  isNecessary: false,
-                                  controller: _cycleNoController,
-                                  inputFormatters: [
-                                    LengthLimitingTextInputFormatter(10),
-                                  ],
-                                  maxLines: 1,
-                                  counter: false,
-                                  isEnabled: false,
-                                ),
+                                // const SizedBox(height: 12),
+                                // CustomTextField(
+                                //   label: 'Cycle Registration No',
+                                //   isNecessary: false,
+                                //   controller: _cycleNoController,
+                                //   inputFormatters: [
+                                //     LengthLimitingTextInputFormatter(8),
+                                //   ],
+                                //   maxLines: 1,
+                                //   counter: false,
+                                //   isEnabled: _cycleRegEnabled,
+                                // ),
                               ],
                             ),
                           ),
@@ -243,9 +244,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               controller: _destinationController,
                               maxLength: 50,
                               counter: true,
-                              validator: selectedDestination == "Other"
-                                  ? validateField
-                                  : null,
+                              validator: selectedDestination == "Other" ? validateField : null,
                             ),
                           const SizedBox(height: 12),
                         ],

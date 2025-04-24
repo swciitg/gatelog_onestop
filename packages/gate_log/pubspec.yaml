@@ -22,7 +22,6 @@ dependencies:
       url: https://github.com/swciitg/onestop_kit.git
 
   timeago: ^3.6.1
-  flutter_dotenv: ^5.2.1
   screen_brightness: ^2.1.1
 
 dev_dependencies:

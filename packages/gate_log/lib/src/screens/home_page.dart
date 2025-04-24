@@ -35,6 +35,10 @@ class _HomePageState extends State<HomePage> {
           setState(() {
             hasUnclosedEntry = true;
           });
+        } else {
+          setState(() {
+            hasUnclosedEntry = false;
+          });
         }
       }
 
@@ -89,52 +93,88 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: OneStopColors.backgroundColor,
       body: isGuest
           ? const GuestRestrictAccess()
-          : PagedListView<int, EntryDetails>(
-              pagingController: _entryController,
-              builderDelegate: PagedChildBuilderDelegate(
-                itemBuilder: (context, entry, index) => EntryDetailsTile(
-                  entry: entry,
-                  isFirst: index == 0,
-                  onCheckIn: () => _entryController.refresh(),
-                ),
-                firstPageErrorIndicatorBuilder: (context) {
-                  return ErrorReloadScreen(
-                      reloadCallback: _entryController.refresh);
-                },
-                noItemsFoundIndicatorBuilder: (context) =>
-                    const PaginationText(text: "No Entries found"),
-                newPageErrorIndicatorBuilder: (context) => Column(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: ErrorReloadButton(
-                      reloadCallback: _entryController.retryLastFailedRequest,
+          : Column(
+              children: [
+                _entryCloseInfo(),
+                Expanded(
+                  child: PagedListView<int, EntryDetails>(
+                    pagingController: _entryController,
+                    builderDelegate: PagedChildBuilderDelegate(
+                      itemBuilder: (context, entry, index) => EntryDetailsTile(
+                        entry: entry,
+                        isFirst: index == 0,
+                        onCheckIn: () => _entryController.refresh(),
+                      ),
+                      firstPageErrorIndicatorBuilder: (context) {
+                        return ErrorReloadScreen(reloadCallback: _entryController.refresh);
+                      },
+                      noItemsFoundIndicatorBuilder: (context) =>
+                          const PaginationText(text: "No Entries found"),
+                      newPageErrorIndicatorBuilder: (context) => Column(children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: ErrorReloadButton(
+                            reloadCallback: _entryController.retryLastFailedRequest,
+                          ),
+                        )
+                      ]),
+                      newPageProgressIndicatorBuilder: (context) => const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(child: CircularProgressIndicator()),
+                      ),
+                      firstPageProgressIndicatorBuilder: (context) => ListShimmer(
+                        count: 10,
+                        height: 100,
+                      ),
+                      noMoreItemsIndicatorBuilder: (context) =>
+                          const PaginationText(text: "You've reached the end"),
                     ),
-                  )
-                ]),
-                newPageProgressIndicatorBuilder: (context) => const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Center(child: CircularProgressIndicator()),
+                  ),
                 ),
-                firstPageProgressIndicatorBuilder: (context) => ListShimmer(
-                  count: 10,
-                  height: 100,
-                ),
-                noMoreItemsIndicatorBuilder: (context) =>
-                    const PaginationText(text: "You've reached the end"),
+              ],
+            ),
+      floatingActionButton: hasUnclosedEntry
+          ? null
+          : FloatingActionButton(
+              backgroundColor: OneStopColors.primaryColor,
+              onPressed: () async {
+                await Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => CheckOutPage(),
+                ));
+                _entryController.refresh();
+              },
+              child: const Icon(
+                Icons.add,
+                color: OneStopColors.kBlack,
               ),
             ),
-      floatingActionButton: hasUnclosedEntry ? null : FloatingActionButton(
-        backgroundColor: OneStopColors.primaryColor,
-        onPressed: () async {
-          await Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => CheckOutPage(),
-          ));
-          _entryController.refresh();
-        },
-        child: const Icon(
-          Icons.add,
-          color: OneStopColors.kBlack,
-        ),
+    );
+  }
+
+  Widget _entryCloseInfo() {
+    if (!hasUnclosedEntry) return const SizedBox();
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.all(10).copyWith(bottom: 0),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: OneStopColors.cardColor1,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.info_rounded,
+            color: OneStopColors.cardFontColor2,
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              'Close your previous entry to check out',
+              style: OnestopFonts.w600.setColor(OneStopColors.cardFontColor2).size(13),
+            ),
+          ),
+        ],
       ),
     );
   }
