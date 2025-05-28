@@ -1,5 +1,3 @@
-import 'dart:developer';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gate_log/src/models/entry_details.dart';
 import 'package:gate_log/src/screens/check_out_page.dart';
@@ -18,42 +16,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final int pageSize = 10;
-  final PagingController<int, EntryDetails> _entryController =
-      PagingController(firstPageKey: 1, invisibleItemsThreshold: 1);
+  static const int pageSize = 10;
+
+  final PagingController<int, EntryDetails> _pagingController = PagingController(
+    getNextPageKey: (state) {
+      final entries = state.items ?? [];
+      if (entries.length < pageSize) {
+        return null;
+      } else {
+        return (state.keys?.last ?? 0) + 1;
+      }
+    },
+    fetchPage: (pageKey) async {
+      return await APIService().getLogHistory(pageKey, pageSize);
+    },
+  );
   bool isGuest = true;
   bool hasUnclosedEntry = false;
-
-  Future<void> _fetchEntries(int pageKey) async {
-    try {
-      final result = await APIService().getLogHistory(pageKey, pageSize);
-      bool isLastPage = result.length < pageSize;
-
-      if (pageKey == 1 && result.isNotEmpty) {
-        var entry = result[0];
-        if (!entry.isClosed) {
-          setState(() {
-            hasUnclosedEntry = true;
-          });
-        } else {
-          setState(() {
-            hasUnclosedEntry = false;
-          });
-        }
-      }
-
-      if (isLastPage) {
-        _entryController.appendLastPage(result);
-      } else {
-        _entryController.appendPage(result, pageKey + 1);
-      }
-    } on DioException catch (e) {
-      log("Error: ${e.response?.data}");
-    } catch (e) {
-      log("Error: $e");
-      _entryController.error = e;
-    }
-  }
 
   void setIsGuest() async {
     final isG = await SharedPrefs.isGuestUser();
@@ -63,15 +42,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    setIsGuest();
-    _entryController.addPageRequestListener(_fetchEntries);
-  }
-
-  @override
   void dispose() {
-    _entryController.dispose();
+    _pagingController.dispose();
     super.dispose();
   }
 
@@ -97,37 +69,41 @@ class _HomePageState extends State<HomePage> {
               children: [
                 _entryCloseInfo(),
                 Expanded(
-                  child: PagedListView<int, EntryDetails>(
-                    pagingController: _entryController,
-                    builderDelegate: PagedChildBuilderDelegate(
-                      itemBuilder: (context, entry, index) => EntryDetailsTile(
-                        entry: entry,
-                        isFirst: index == 0,
-                        onCheckIn: () => _entryController.refresh(),
+                  child: PagingListener(
+                    controller: _pagingController,
+                    builder: (context, state, fetchNextPage) => PagedListView<int, EntryDetails>(
+                      state: state,
+                      fetchNextPage: fetchNextPage,
+                      builderDelegate: PagedChildBuilderDelegate(
+                        itemBuilder: (context, entry, index) => EntryDetailsTile(
+                          entry: entry,
+                          isFirst: index == 0,
+                          onCheckIn: () => _pagingController.refresh(),
+                        ),
+                        firstPageErrorIndicatorBuilder: (context) {
+                          return ErrorReloadScreen(reloadCallback: _pagingController.refresh);
+                        },
+                        noItemsFoundIndicatorBuilder: (context) =>
+                            const PaginationText(text: "No Entries found"),
+                        newPageErrorIndicatorBuilder: (context) => Column(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: ErrorReloadButton(
+                              reloadCallback: () => _pagingController.refresh(),
+                            ),
+                          )
+                        ]),
+                        newPageProgressIndicatorBuilder: (context) => const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
+                        firstPageProgressIndicatorBuilder: (context) => ListShimmer(
+                          count: 10,
+                          height: 100,
+                        ),
+                        noMoreItemsIndicatorBuilder: (context) =>
+                            const PaginationText(text: "You've reached the end"),
                       ),
-                      firstPageErrorIndicatorBuilder: (context) {
-                        return ErrorReloadScreen(reloadCallback: _entryController.refresh);
-                      },
-                      noItemsFoundIndicatorBuilder: (context) =>
-                          const PaginationText(text: "No Entries found"),
-                      newPageErrorIndicatorBuilder: (context) => Column(children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: ErrorReloadButton(
-                            reloadCallback: _entryController.retryLastFailedRequest,
-                          ),
-                        )
-                      ]),
-                      newPageProgressIndicatorBuilder: (context) => const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Center(child: CircularProgressIndicator()),
-                      ),
-                      firstPageProgressIndicatorBuilder: (context) => ListShimmer(
-                        count: 10,
-                        height: 100,
-                      ),
-                      noMoreItemsIndicatorBuilder: (context) =>
-                          const PaginationText(text: "You've reached the end"),
                     ),
                   ),
                 ),
@@ -141,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                 await Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => CheckOutPage(),
                 ));
-                _entryController.refresh();
+                _pagingController.refresh();
               },
               child: const Icon(
                 Icons.add,
