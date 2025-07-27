@@ -20,7 +20,7 @@ dependencies:
   onestop_kit:
     git:
       url: https://github.com/swciitg/onestop_kit.git
-      ref: dev
+      ref: main
 
   timeago: ^3.6.1
   screen_brightness: ^2.1.1

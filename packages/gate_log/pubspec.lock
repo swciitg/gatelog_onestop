@@ -228,7 +228,7 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: dev
+      ref: main
       resolved-ref: "51f7dee9a9044322045bfea8ed0878bf237b63c1"
       url: "https://github.com/swciitg/onestop_kit.git"
     source: git
