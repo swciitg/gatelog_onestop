@@ -18,19 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static const int pageSize = 10;
 
-  final PagingController<int, EntryDetails> _pagingController = PagingController(
-    getNextPageKey: (state) {
-      final entries = state.items ?? [];
-      if (entries.length < pageSize) {
-        return null;
-      } else {
-        return (state.keys?.last ?? 0) + 1;
-      }
-    },
-    fetchPage: (pageKey) async {
-      return await APIService().getLogHistory(pageKey, pageSize);
-    },
-  );
+  late PagingController<int, EntryDetails> _pagingController;
   bool isGuest = true;
   bool hasUnclosedEntry = false;
 
@@ -39,6 +27,25 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       isGuest = isG;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setIsGuest();
+    _pagingController = PagingController(
+      getNextPageKey: (state) {
+        return state.lastPageIsEmpty ? null : state.nextIntPageKey;
+      },
+      fetchPage: (pageKey) async {
+        final results = await APIService().getLogHistory(pageKey, pageSize);
+        if (pageKey == 1 && !results[0].isClosed) {
+          hasUnclosedEntry = true;
+          setState(() {});
+        }
+        return results;
+      },
+    );
   }
 
   @override

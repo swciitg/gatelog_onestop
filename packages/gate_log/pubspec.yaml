@@ -16,10 +16,11 @@ dependencies:
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
   web_socket_channel: ^3.0.1
-  infinite_scroll_pagination: ^5.0.0
+  infinite_scroll_pagination: ^5.1.0
   onestop_kit:
     git:
       url: https://github.com/swciitg/onestop_kit.git
+      ref: dev
 
   timeago: ^3.6.1
   screen_brightness: ^2.1.1
@@ -27,7 +28,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
